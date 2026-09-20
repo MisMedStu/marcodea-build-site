@@ -1,0 +1,269 @@
+---
+import { Picture } from 'astro:assets';
+import Button from './Button.astro';
+import Icon from './Icon.astro';
+import Facts from './Facts.astro';
+import { hero } from '../data/content';
+import heroImage from '../assets/hero.jpg';
+---
+
+<section class="hero" aria-labelledby="h1">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow">
+          {
+            hero.eyebrow.map((word, i) => (
+              <>
+                {i > 0 && <span />}
+                {word}
+              </>
+            ))
+          }
+        </div>
+
+        <h1 id="h1">
+          {hero.titleLine1}
+          <em>{hero.titleLine2}</em>
+        </h1>
+
+        <p class="lead">{hero.lead}</p>
+
+        <div class="hero-actions">
+          <Button href="#contact" variant="primary">
+            {hero.primaryCta}
+            <Icon name="arrow" />
+          </Button>
+          <Button href="#services" variant="ghost">{hero.secondaryCta}</Button>
+        </div>
+      </div>
+
+      <div class="hero-media">
+        <div class="frame">
+          <Picture
+            src={heroImage}
+            alt={hero.imageAlt}
+            widths={[440, 660, 880]}
+            sizes="(max-width: 900px) 92vw, 42vw"
+            loading="eager"
+            fetchpriority="high"
+            formats={['avif', 'webp']}
+            fallbackFormat="jpg"
+          />
+        </div>
+
+        <div class="float-tag">
+          {hero.tag.text}
+          <b>{hero.tag.accent}</b>
+        </div>
+
+        <div class="float-card">
+          <span class="ic"><Icon name="clock" /></span>
+          <span>
+            <b>{hero.card.title}</b>
+            <small>{hero.card.text}</small>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <Facts />
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    overflow: hidden;
+    color: var(--white);
+    background:
+      radial-gradient(900px 500px at 85% 10%, rgba(18, 102, 255, 0.35), transparent 60%),
+      var(--navy);
+  }
+
+  /* زخرفة الأقواس من الهوية */
+  .hero::after {
+    content: '';
+    position: absolute;
+    top: -40px;
+    left: 34%;
+    width: 260px;
+    height: 150px;
+    pointer-events: none;
+    background: radial-gradient(
+        circle at 50% 100%,
+        transparent 29px,
+        rgba(255, 255, 255, 0.1) 30px,
+        transparent 31px
+      )
+      0 0 / 65px 150px repeat-x;
+    opacity: 0.9;
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 56px;
+    align-items: center;
+    padding-block: 72px 64px;
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    font-family: var(--f-en);
+    direction: ltr;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.42em;
+    color: var(--cyan);
+    margin-bottom: 22px;
+  }
+
+  .eyebrow span {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--blue);
+  }
+
+  h1 {
+    font-size: clamp(38px, 5.4vw, 66px);
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+  }
+
+  h1 em {
+    font-style: normal;
+    color: var(--cyan);
+    display: block;
+  }
+
+  .lead {
+    font-size: 17.5px;
+    color: rgba(255, 255, 255, 0.8);
+    max-width: 52ch;
+    margin-top: 22px;
+    font-weight: 300;
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 34px;
+  }
+
+  .hero-media {
+    position: relative;
+  }
+
+  .frame {
+    border-radius: 180px 180px var(--r) var(--r);
+    overflow: hidden;
+    aspect-ratio: 4 / 5.2;
+    max-width: 100%;
+    box-shadow: var(--shadow-frame);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  .frame :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 40% 60%;
+  }
+
+  .float-card {
+    position: absolute;
+    inset-inline-end: -18px;
+    bottom: 36px;
+    background: var(--white);
+    color: var(--ink);
+    border-radius: 16px;
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: var(--shadow-card);
+    max-width: 260px;
+  }
+
+  .float-card .ic {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: var(--ice);
+    display: grid;
+    place-items: center;
+    color: var(--blue);
+    flex: none;
+  }
+
+  .float-card .ic :global(svg) {
+    width: 22px;
+    height: 22px;
+  }
+
+  .float-card b {
+    display: block;
+    font-size: 14px;
+  }
+
+  .float-card small {
+    display: block;
+    font-size: 12.5px;
+    color: var(--ink-2);
+    line-height: 1.5;
+  }
+
+  .float-tag {
+    position: absolute;
+    inset-inline-start: -14px;
+    top: 46px;
+    background: rgba(8, 43, 111, 0.82);
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 999px;
+    padding: 8px 16px;
+    font-family: var(--f-en);
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    color: var(--white);
+    direction: ltr;
+  }
+
+  .float-tag b {
+    color: var(--cyan);
+  }
+
+  @media (max-width: 900px) {
+    .hero::after {
+      display: none;
+    }
+
+    .hero-grid {
+      grid-template-columns: 1fr;
+      gap: 40px;
+      padding-block: 48px 40px;
+    }
+
+    .hero-media {
+      max-width: 440px;
+      margin-inline: auto;
+      width: 100%;
+    }
+
+    .float-card {
+      inset-inline-end: 8px;
+    }
+
+    .float-tag {
+      inset-inline-start: 8px;
+    }
+  }
+</style>

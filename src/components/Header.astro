@@ -1,0 +1,191 @@
+---
+import Logo from './Logo.astro';
+import Button from './Button.astro';
+import Icon from './Icon.astro';
+import { nav, header } from '../data/content';
+---
+
+<header class="site-hd">
+  <div class="wrap">
+    <div class="hd-row">
+      <Logo href="#top" variant="light" />
+
+      <nav class="nav" aria-label={header.navLabel}>
+        {
+          nav.map((item, i) => (
+            <a href={item.href} class:list={[i === 0 && 'active']}>
+              {item.label}
+            </a>
+          ))
+        }
+      </nav>
+
+      <div class="hd-cta">
+        <Button href="#contact" variant="primary" class="hd-cta-btn">{header.cta}</Button>
+        <button
+          class="menu-btn"
+          id="menuBtn"
+          type="button"
+          aria-label={header.openMenu}
+          aria-expanded="false"
+          aria-controls="mnav"
+          data-open-label={header.openMenu}
+          data-close-label={header.closeMenu}
+        >
+          <Icon name="menu" />
+        </button>
+      </div>
+    </div>
+
+    <nav class="mnav" id="mnav" aria-label={header.mobileNavLabel}>
+      {nav.map((item) => <a href={item.href}>{item.label}</a>)}
+      <Button href="#contact" variant="primary">{header.cta}</Button>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const btn = document.getElementById('menuBtn');
+  const mnav = document.getElementById('mnav');
+
+  if (btn && mnav) {
+    const labels = {
+      open: btn.dataset.closeLabel ?? '',
+      closed: btn.dataset.openLabel ?? '',
+    };
+
+    btn.addEventListener('click', () => {
+      const isOpen = mnav.classList.toggle('open');
+      btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      btn.setAttribute('aria-label', isOpen ? labels.open : labels.closed);
+    });
+
+    mnav.addEventListener('click', (event) => {
+      if ((event.target as HTMLElement).closest('a')) {
+        mnav.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+        btn.setAttribute('aria-label', labels.closed);
+      }
+    });
+  }
+
+  // إبراز القسم الحالي في القائمة أثناء التمرير
+  const links = Array.from(document.querySelectorAll<HTMLAnchorElement>('.nav a'));
+  const ids = ['services', 'audience', 'process', 'work', 'contact'];
+
+  function markActive() {
+    const y = window.scrollY + 120;
+    let current = 'top';
+    for (const id of ids) {
+      const section = document.getElementById(id);
+      if (section && section.offsetTop <= y) current = id;
+    }
+    for (const link of links) {
+      link.classList.toggle('active', link.getAttribute('href') === `#${current}`);
+    }
+  }
+
+  window.addEventListener('scroll', markActive, { passive: true });
+  markActive();
+</script>
+
+<style>
+  .site-hd {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    background: rgba(8, 43, 111, 0.96);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line-dark);
+  }
+
+  .hd-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    min-height: 78px;
+  }
+
+  .nav {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .nav a {
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 14.5px;
+    padding: 8px 13px;
+    border-radius: 999px;
+    transition:
+      color 0.2s,
+      background 0.2s;
+  }
+
+  .nav a:hover {
+    color: var(--white);
+    background: rgba(255, 255, 255, 0.07);
+  }
+
+  .nav a.active {
+    color: var(--cyan);
+  }
+
+  .hd-cta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .menu-btn {
+    display: none;
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+    border: 1px solid var(--line-dark);
+    background: transparent;
+    color: var(--white);
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .menu-btn :global(svg) {
+    width: 22px;
+    height: 22px;
+  }
+
+  .mnav {
+    display: none;
+  }
+
+  @media (max-width: 900px) {
+    .nav,
+    .hd-cta :global(.hd-cta-btn) {
+      display: none;
+    }
+
+    .menu-btn {
+      display: inline-flex;
+    }
+
+    .mnav.open {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding: 10px 0 18px;
+    }
+
+    .mnav a:not(.btn) {
+      color: var(--white);
+      padding: 12px 6px;
+      border-bottom: 1px solid var(--line-dark);
+      font-size: 15.5px;
+    }
+
+    .mnav :global(.btn) {
+      margin-top: 12px;
+    }
+  }
+</style>

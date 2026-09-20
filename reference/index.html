@@ -1,0 +1,743 @@
+<title>موقع ماركوديا بيلد</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@300;400;500;600;700;800&family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+/* ===== MARCODEA BUILD — tokens from Brand Guideline 2026 v1 ===== */
+:root{
+  --navy:#082B6F;
+  --navy-deep:#051C4A;
+  --blue:#1266FF;
+  --cyan:#22D7F7;
+  --ice:#EAF1F7;
+  --white:#FFFFFF;
+  --ink:#0A1F4A;
+  --ink-2:#44587E;
+  --ink-3:#6B7E9F;
+  --line:#D3DFEB;
+  --line-dark:rgba(255,255,255,.14);
+  --f-ar:"Alexandria","Segoe UI",Tahoma,sans-serif;
+  --f-en:"Montserrat","Alexandria",sans-serif;
+  --r:18px;
+  --maxw:1200px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  direction:rtl;margin:0;background:var(--white);color:var(--ink);
+  font-family:var(--f-ar);font-size:16px;line-height:1.8;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{margin:0;line-height:1.35;text-wrap:balance;font-weight:700}
+p{margin:0}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+button,input,select,textarea{font-family:inherit;font-size:inherit}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:6px}
+.wrap{max-width:var(--maxw);margin:0 auto;padding-inline:24px}
+.en{font-family:var(--f-en);direction:ltr;unicode-bidi:isolate}
+
+/* ---------- logo ---------- */
+.logo{display:flex;align-items:center;gap:12px}
+.logo svg{width:46px;height:auto;flex:none}
+.logo .wm{display:flex;flex-direction:column;line-height:1}
+.logo .wm b{font-family:var(--f-en);font-weight:800;font-size:19px;letter-spacing:.01em;color:var(--white)}
+.logo .wm i{
+  font-style:normal;font-family:var(--f-en);font-weight:700;font-size:9.5px;letter-spacing:.55em;
+  color:var(--white);margin-top:6px;display:flex;align-items:center;gap:6px;padding-inline-start:.55em;
+}
+.logo .wm i::before,.logo .wm i::after{content:"";height:1px;flex:1;background:var(--cyan);opacity:.8}
+.logo.on-light .wm b,.logo.on-light .wm i{color:var(--navy)}
+
+/* ---------- buttons ---------- */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  min-height:48px;padding:0 24px;border-radius:999px;font-weight:600;font-size:15px;
+  border:1.5px solid transparent;cursor:pointer;transition:transform .2s ease, background .2s ease, border-color .2s ease;
+  white-space:nowrap;
+}
+.btn svg{width:18px;height:18px}
+.btn-primary{background:var(--blue);color:var(--white)}
+.btn-primary:hover{background:#0B55E0;transform:translateY(-1px)}
+.btn-ghost{border-color:rgba(255,255,255,.4);color:var(--white);background:transparent}
+.btn-ghost:hover{border-color:var(--cyan);color:var(--cyan)}
+.btn-dark{background:var(--navy);color:var(--white)}
+.btn-dark:hover{background:var(--navy-deep)}
+.btn-wa{background:#1FAF5C;color:#fff}
+.btn-wa:hover{background:#189A50}
+
+/* ---------- header ---------- */
+.site-hd{position:sticky;top:0;z-index:30;background:rgba(8,43,111,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--line-dark)}
+.hd-row{display:flex;align-items:center;justify-content:space-between;gap:20px;min-height:78px}
+.nav{display:flex;align-items:center;gap:4px}
+.nav a{color:rgba(255,255,255,.78);font-size:14.5px;padding:8px 13px;border-radius:999px;transition:color .2s, background .2s}
+.nav a:hover{color:var(--white);background:rgba(255,255,255,.07)}
+.nav a.active{color:var(--cyan)}
+.hd-cta{display:flex;align-items:center;gap:10px}
+.menu-btn{display:none;width:46px;height:46px;border-radius:12px;border:1px solid var(--line-dark);background:transparent;color:#fff;align-items:center;justify-content:center;cursor:pointer}
+.menu-btn svg{width:22px;height:22px}
+.mnav{display:none}
+
+/* ---------- hero ---------- */
+.hero{
+  position:relative;overflow:hidden;color:var(--white);
+  background:
+    radial-gradient(900px 500px at 85% 10%, rgba(18,102,255,.35), transparent 60%),
+    var(--navy);
+}
+.hero::after{ /* brand arches motif */
+  content:"";position:absolute;top:-40px;left:34%;width:260px;height:150px;pointer-events:none;
+  background:
+    radial-gradient(circle at 50% 100%, transparent 29px, rgba(255,255,255,.10) 30px, transparent 31px) 0 0/65px 150px repeat-x;
+  opacity:.9;
+}
+.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:center;padding-block:72px 64px}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:14px;font-family:var(--f-en);direction:ltr;
+  font-size:12px;font-weight:700;letter-spacing:.42em;color:var(--cyan);margin-bottom:22px;
+}
+.eyebrow span{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--blue)}
+.hero h1{font-size:clamp(38px,5.4vw,66px);font-weight:800;letter-spacing:-.01em;line-height:1.2}
+.hero h1 em{font-style:normal;color:var(--cyan);display:block}
+.hero .lead{font-size:17.5px;color:rgba(255,255,255,.8);max-width:52ch;margin-top:22px;font-weight:300}
+.hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px}
+.hero-media{position:relative}
+.hero-media .frame{
+  border-radius:180px 180px var(--r) var(--r);overflow:hidden;aspect-ratio:4/5.2;max-width:100%;
+  box-shadow:0 40px 80px -30px rgba(0,0,0,.6);border:1px solid rgba(255,255,255,.12)
+}
+.hero-media .frame img{width:100%;height:100%;object-fit:cover;object-position:40% 60%}
+.float-card{
+  position:absolute;inset-inline-end:-18px;bottom:36px;background:var(--white);color:var(--ink);
+  border-radius:16px;padding:14px 18px;display:flex;align-items:center;gap:12px;
+  box-shadow:0 20px 40px -18px rgba(5,28,74,.55);max-width:260px
+}
+.float-card .ic{width:42px;height:42px;border-radius:12px;background:var(--ice);display:grid;place-items:center;color:var(--blue);flex:none}
+.float-card .ic svg{width:22px;height:22px}
+.float-card b{display:block;font-size:14px}
+.float-card small{display:block;font-size:12.5px;color:var(--ink-2);line-height:1.5}
+.float-tag{
+  position:absolute;inset-inline-start:-14px;top:46px;background:rgba(8,43,111,.82);backdrop-filter:blur(6px);
+  border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:8px 16px;font-family:var(--f-en);
+  font-weight:700;font-size:12px;letter-spacing:.2em;color:var(--white);direction:ltr
+}
+.float-tag b{color:var(--cyan)}
+
+.facts{border-top:1px solid var(--line-dark);display:grid;grid-template-columns:repeat(4,1fr)}
+.fact{padding:26px 24px;border-inline-start:1px solid var(--line-dark)}
+.fact:first-child{border-inline-start:0;padding-inline-start:0}
+.fact .v{font-family:var(--f-en);font-weight:800;font-size:30px;color:var(--white);line-height:1.1;direction:ltr;unicode-bidi:isolate;display:inline-block}
+.fact .v.ar{font-family:var(--f-ar);direction:rtl;font-size:24px}
+.fact .k{font-size:13.5px;color:rgba(255,255,255,.66);margin-top:6px}
+
+/* ---------- section scaffolding ---------- */
+section{scroll-margin-top:80px}
+.sec{padding-block:96px}
+.sec.ice{background:var(--ice)}
+.sec.dark{background:var(--navy);color:var(--white)}
+.sec-hd{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:48px;flex-wrap:wrap}
+.kicker{font-family:var(--f-en);direction:ltr;display:inline-block;font-size:12px;font-weight:700;letter-spacing:.32em;color:var(--blue);margin-bottom:12px}
+.sec.dark .kicker{color:var(--cyan)}
+.sec-hd h2{font-size:clamp(28px,3.4vw,42px);font-weight:800}
+.sec-hd p{color:var(--ink-2);max-width:48ch;font-size:16px}
+.sec.dark .sec-hd p{color:rgba(255,255,255,.72)}
+.rule{display:block;width:56px;height:3px;border-radius:3px;background:linear-gradient(90deg,var(--cyan),var(--blue));margin-top:16px}
+
+/* ---------- services ---------- */
+.svc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.svc{
+  background:var(--white);border:1px solid var(--line);border-radius:var(--r);padding:28px 24px 26px;
+  display:flex;flex-direction:column;gap:14px;transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease
+}
+.svc:hover{transform:translateY(-4px);box-shadow:0 24px 48px -28px rgba(8,43,111,.45);border-color:#B9CCE4}
+.svc .ic{width:54px;height:54px;border-radius:16px;background:var(--navy);display:grid;place-items:center;color:var(--cyan)}
+.svc .ic svg{width:26px;height:26px}
+.svc h3{font-size:19px;font-weight:700}
+.svc p{font-size:14.5px;color:var(--ink-2);line-height:1.85}
+.svc .tag{margin-top:auto;font-family:var(--f-en);direction:ltr;align-self:flex-end;font-size:11px;font-weight:700;letter-spacing:.18em;color:var(--blue)}
+
+/* ---------- audiences ---------- */
+.aud-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.aud{position:relative;border-radius:24px;overflow:hidden;display:flex;flex-direction:column;background:var(--navy);color:var(--white)}
+.aud .ph-img{height:270px;overflow:hidden;flex:none}
+.aud img{width:100%;height:100%;object-fit:cover}
+.aud-body{padding:30px 32px 34px;display:flex;flex-direction:column;gap:12px;flex:1}
+.aud .who{display:inline-flex;align-self:flex-start;font-size:12.5px;font-weight:600;background:rgba(34,215,247,.14);color:var(--cyan);border:1px solid rgba(34,215,247,.4);padding:4px 14px;border-radius:999px}
+.aud h3{font-size:clamp(22px,2.4vw,28px);font-weight:800}
+.aud p{color:rgba(255,255,255,.8);font-size:15px}
+.aud ul{list-style:none;margin:4px 0 10px;padding:0;display:flex;flex-direction:column;gap:7px;font-size:14.5px}
+.aud li{display:flex;gap:10px;align-items:flex-start}
+.aud li svg{width:18px;height:18px;flex:none;color:var(--cyan);margin-top:5px}
+.aud .btn{align-self:flex-start;margin-top:auto}
+
+/* ---------- process: PLAN BUILD GROW ---------- */
+.proc{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--line-dark);border-radius:24px;overflow:hidden}
+.step{padding:38px 32px 36px;border-inline-start:1px solid var(--line-dark);position:relative;display:flex;flex-direction:column;gap:14px}
+.step:first-child{border-inline-start:0}
+.step .word{font-family:var(--f-en);direction:ltr;text-align:right;font-weight:800;font-size:44px;letter-spacing:.06em;line-height:1;color:transparent;-webkit-text-stroke:1.2px rgba(34,215,247,.75)}
+.step:hover .word{color:var(--cyan);-webkit-text-stroke:0}
+.step .word{transition:color .3s}
+.step .days{font-family:var(--f-en);direction:ltr;text-align:right;font-size:12px;font-weight:700;letter-spacing:.2em;color:rgba(255,255,255,.55)}
+.step h3{font-size:21px;font-weight:700}
+.step p{font-size:14.5px;color:rgba(255,255,255,.72)}
+.step ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px;font-size:14px;color:rgba(255,255,255,.86)}
+.step li::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--cyan);margin-inline-end:10px;vertical-align:middle}
+.proc-bar{height:4px;background:linear-gradient(90deg,var(--cyan),var(--blue))}
+
+/* ---------- portfolio slots ---------- */
+.work-grid{display:grid;grid-template-columns:1.4fr 1fr;grid-template-rows:1fr 1fr;gap:18px;height:560px}
+.slot{
+  position:relative;border-radius:var(--r);overflow:hidden;background:var(--navy);
+  background-image:
+    linear-gradient(rgba(34,215,247,.10) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34,215,247,.10) 1px, transparent 1px),
+    linear-gradient(rgba(34,215,247,.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34,215,247,.05) 1px, transparent 1px);
+  background-size:80px 80px,80px 80px,16px 16px,16px 16px;
+  display:flex;flex-direction:column;justify-content:space-between;padding:24px;color:var(--white)
+}
+.slot.big{grid-row:span 2}
+.slot .mk{width:72px;opacity:.9}
+.slot.big .mk{width:120px}
+.slot .cap{display:flex;justify-content:space-between;align-items:flex-end;gap:14px}
+.slot .cap b{display:block;font-size:17px}
+.slot .cap small{display:block;font-size:13px;color:rgba(255,255,255,.62)}
+.slot .no{font-family:var(--f-en);font-weight:800;font-size:13px;letter-spacing:.2em;color:var(--cyan);direction:ltr}
+.slot .dims{position:absolute;inset-inline-start:24px;top:24px;font-family:var(--f-en);direction:ltr;font-size:11px;letter-spacing:.14em;color:rgba(255,255,255,.5)}
+.work-note{margin-top:18px;font-size:13.5px;color:var(--ink-3);display:flex;gap:8px;align-items:center}
+.work-note svg{width:16px;height:16px;color:var(--blue)}
+
+/* ---------- why ---------- */
+.why{display:grid;grid-template-columns:.95fr 1.05fr;gap:56px;align-items:center}
+.why-media{position:relative;border-radius:24px;overflow:hidden;aspect-ratio:4/4.3;max-width:100%}
+.why-media img{width:100%;height:100%;object-fit:cover}
+.why-media .badge{position:absolute;inset-inline-start:22px;bottom:22px;background:var(--white);border-radius:16px;padding:16px 20px;box-shadow:0 20px 40px -20px rgba(5,28,74,.6)}
+.why-media .badge .v{font-family:var(--f-en);font-weight:800;font-size:34px;color:var(--navy);line-height:1;direction:ltr;display:inline-block}
+.why-media .badge .k{font-size:13px;color:var(--ink-2);margin-top:4px}
+.why-list{display:grid;grid-template-columns:1fr 1fr;gap:26px 28px;margin-top:34px}
+.why-item{display:flex;flex-direction:column;gap:8px}
+.why-item .ic{width:44px;height:44px;border-radius:12px;background:var(--ice);color:var(--blue);display:grid;place-items:center}
+.why-item .ic svg{width:22px;height:22px}
+.why-item h4{font-size:16.5px}
+.why-item p{font-size:14.5px;color:var(--ink-2)}
+
+/* ---------- CTA + form ---------- */
+.cta{
+  position:relative;overflow:hidden;border-radius:28px;color:var(--white);
+  background:radial-gradient(700px 380px at 12% 110%, rgba(34,215,247,.28), transparent 60%), var(--navy);
+  display:grid;grid-template-columns:1fr 1fr;gap:48px;padding:56px
+}
+.cta h2{font-size:clamp(28px,3.2vw,40px);font-weight:800}
+.cta h2 em{font-style:normal;color:var(--cyan)}
+.cta .lead{color:rgba(255,255,255,.78);margin-top:14px;max-width:44ch}
+.cta ul{list-style:none;margin:24px 0 0;padding:0;display:flex;flex-direction:column;gap:10px}
+.cta li{display:flex;gap:10px;align-items:flex-start;font-size:15px;color:rgba(255,255,255,.9)}
+.cta li svg{width:20px;height:20px;color:var(--cyan);flex:none;margin-top:4px}
+.cta .alt{margin-top:28px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;color:rgba(255,255,255,.65);font-size:14px}
+
+.form{background:var(--white);color:var(--ink);border-radius:22px;padding:28px;display:grid;grid-template-columns:1fr 1fr;gap:14px 14px;align-content:start}
+.form h3{grid-column:1/-1;font-size:19px;margin-bottom:2px}
+.form .f{display:flex;flex-direction:column;gap:6px}
+.form .f.full{grid-column:1/-1}
+.form label{font-size:13px;font-weight:600;color:var(--ink-2)}
+.form input,.form select,.form textarea{
+  width:100%;border:1.5px solid var(--line);border-radius:12px;padding:12px 14px;background:var(--white);color:var(--ink);min-height:48px
+}
+.form textarea{min-height:92px;resize:vertical}
+.form input:focus,.form select:focus,.form textarea:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 4px rgba(18,102,255,.12)}
+.form .btn{grid-column:1/-1;width:100%}
+.form .fine{grid-column:1/-1;font-size:12.5px;color:var(--ink-3);text-align:center}
+.toast{grid-column:1/-1;background:var(--ice);border:1px solid #BFD3EA;border-radius:12px;padding:12px 14px;font-size:14px;color:var(--navy)}
+
+/* ---------- footer ---------- */
+.site-ft{background:var(--navy-deep);color:rgba(255,255,255,.72);padding-block:64px 28px;margin-top:96px}
+.ft-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1.2fr;gap:36px}
+.ft-grid h4{color:var(--white);font-size:15px;margin-bottom:16px}
+.ft-grid ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px;font-size:14.5px}
+.ft-grid a:hover{color:var(--cyan)}
+.ft-about p{font-size:14.5px;margin-top:18px;max-width:34ch}
+.ft-tag{font-family:var(--f-en);direction:ltr;display:inline-block;letter-spacing:.4em;font-weight:700;font-size:11.5px;color:var(--cyan);margin-top:18px}
+.contact li{display:flex;gap:10px;align-items:flex-start}
+.contact svg{width:18px;height:18px;color:var(--cyan);flex:none;margin-top:5px}
+.ph{color:#FFD27A}
+.ft-bar{
+  margin-top:48px;border:1px solid var(--line-dark);border-radius:999px;padding:12px 26px;
+  display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:13px
+}
+.ft-bar .en{letter-spacing:.08em}
+
+/* ---------- responsive ---------- */
+@media (max-width:1080px){
+  .svc-grid{grid-template-columns:repeat(2,1fr)}
+  .ft-grid{grid-template-columns:1fr 1fr}
+}
+@media (max-width:900px){
+  .nav,.hd-cta .btn{display:none}
+  .menu-btn{display:inline-flex}
+  .mnav.open{display:flex;flex-direction:column;gap:4px;padding:10px 0 18px}
+  .mnav a{color:#fff;padding:12px 6px;border-bottom:1px solid var(--line-dark);font-size:15.5px}
+  .mnav .btn{margin-top:12px}
+  .hero::after{display:none}
+  .hero-grid{grid-template-columns:1fr;gap:40px;padding-block:48px 40px}
+  .hero-media{max-width:440px;margin-inline:auto;width:100%}
+  .float-card{inset-inline-end:8px}
+  .float-tag{inset-inline-start:8px}
+  .facts{grid-template-columns:1fr 1fr}
+  .fact{padding:20px 16px}
+  .fact:nth-child(3){border-inline-start:0;padding-inline-start:0}
+  .fact:nth-child(n+3){border-top:1px solid var(--line-dark)}
+  .aud-grid,.why,.cta{grid-template-columns:1fr}
+  .proc{grid-template-columns:1fr}
+  .step{border-inline-start:0;border-top:1px solid var(--line-dark)}
+  .step:first-child{border-top:0}
+  .work-grid{grid-template-columns:1fr 1fr;grid-template-rows:auto;height:auto}
+  .work-grid .slot{min-height:220px}
+  .work-grid .slot.big{grid-column:1/-1;grid-row:auto;min-height:300px}
+  .cta{padding:34px 24px}
+}
+@media (max-width:560px){
+  .wrap{padding-inline:18px}
+  .sec{padding-block:68px}
+  .svc-grid{grid-template-columns:1fr}
+  .why-list{grid-template-columns:1fr}
+  .form{grid-template-columns:1fr;padding:22px}
+  .work-grid{grid-template-columns:1fr}
+  .ft-grid{grid-template-columns:1fr}
+  .ft-bar{border-radius:18px}
+  .aud-body{padding:24px}
+  .logo .wm b{font-size:17px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+
+<!-- logo symbol: exact vector from Brand Guideline p.6 -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="mk" viewBox="0 0 90.42 70.10">
+    <path fill="#1266ff" d="M1.14,65.14 L1.14,5.24 C1.14,1.13 2.90,0.14 6.40,2.27 L43.21,25.82 L29.95,34.74 L17.60,26.05 L17.60,58.51 L5.72,68.12 C2.67,69.94 1.14,68.95 1.14,65.14 Z"/>
+    <path fill="#22d7f7" d="M89.28,65.11 L89.28,5.21 C89.28,1.09 87.52,0.10 84.02,2.24 L47.21,25.78 L60.47,34.70 L72.82,26.01 L72.82,58.48 L84.71,68.08 C87.75,69.91 89.28,68.92 89.28,65.11 Z"/>
+    <path fill="#1266ff" d="M45.27,28.35 L45.27,35.89 L22.86,50.76 L22.86,43.44 Z"/>
+    <path fill="#22d7f7" d="M45.27,28.35 L45.27,35.89 L67.67,50.76 L67.67,43.44 Z"/>
+    <path fill="#1266ff" d="M45.15,39.02 L45.15,68.97 L37.15,68.97 L37.15,44.51 Z"/>
+    <path fill="#22d7f7" d="M45.15,39.02 L45.15,68.97 L53.16,68.97 L53.16,44.51 Z"/>
+    <path fill="#22d7f7" d="M34.18,46.79 L34.18,68.97 L25.03,68.97 L25.03,52.97 Z"/>
+    <path fill="#22d7f7" d="M56.13,46.79 L56.13,68.97 L65.27,68.97 L65.27,52.97 Z"/>
+  </symbol>
+</svg>
+
+<!-- ================= HEADER ================= -->
+<header class="site-hd">
+  <div class="wrap">
+    <div class="hd-row">
+      <a class="logo" href="#top" aria-label="MARCODEA BUILD — الرئيسية">
+        <svg viewBox="0 0 90.42 70.10" aria-hidden="true"><use href="#mk"/></svg>
+        <span class="wm"><b>MARCODEA</b><i>BUILD</i></span>
+      </a>
+      <nav class="nav" aria-label="القائمة الرئيسية">
+        <a href="#top" class="active">الرئيسية</a>
+        <a href="#services">خدماتنا</a>
+        <a href="#audience">لمن نعمل</a>
+        <a href="#process">طريقة العمل</a>
+        <a href="#work">أعمالنا</a>
+        <a href="#contact">تواصل معنا</a>
+      </nav>
+      <div class="hd-cta">
+        <a class="btn btn-primary" href="#contact">احجز معاينة مجانية</a>
+        <button class="menu-btn" id="menuBtn" type="button" aria-label="فتح القائمة" aria-expanded="false" aria-controls="mnav">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+        </button>
+      </div>
+    </div>
+    <nav class="mnav" id="mnav" aria-label="قائمة الجوال">
+      <a href="#top">الرئيسية</a>
+      <a href="#services">خدماتنا</a>
+      <a href="#audience">لمن نعمل</a>
+      <a href="#process">طريقة العمل</a>
+      <a href="#work">أعمالنا</a>
+      <a href="#contact">تواصل معنا</a>
+      <a class="btn btn-primary" href="#contact">احجز معاينة مجانية</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ================= HERO ================= -->
+<section class="hero" aria-labelledby="h1">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow">PLAN <span></span> BUILD <span></span> GROW</div>
+        <h1 id="h1">شاهد مشروعك <em>قبل أن يُبنى.</em></h1>
+        <p class="lead">تصميم معماري 2D ورندر ثلاثي الأبعاد واقعي بإشراف مهندس معماري — لأصحاب البيوت والمطورين والمكاتب الهندسية. نحوّل الفكرة إلى مشروع تراه وتعدّل فيه، قبل أن تصرف دينارًا واحدًا على البناء.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#contact">
+            احجز معاينة مجانية
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+          </a>
+          <a class="btn btn-ghost" href="#services">تعرّف على خدماتنا</a>
+        </div>
+      </div>
+
+      <div class="hero-media">
+        <div class="frame"><img src="hero.jpg" alt="واجهة فيلا سكنية حديثة من ثلاثة طوابق بإضاءة المساء"></div>
+        <div class="float-tag">RENDER <b>3D</b></div>
+        <div class="float-card">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
+          <span><b>التسليم خلال أسبوع</b><small>من المعاينة إلى الخريطة والرندر النهائي</small></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="facts">
+      <div class="fact"><span class="v">2018</span><div class="k">في السوق منذ</div></div>
+      <div class="fact"><span class="v">7</span><div class="k">أيام للتسليم</div></div>
+      <div class="fact"><span class="v">2D + 3D</span><div class="k">خريطة ورندر في ملف واحد</div></div>
+      <div class="fact"><span class="v ar">مهندس معماري</span><div class="k">يشرف على كل تصميم</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SERVICES ================= -->
+<section class="sec ice" id="services" aria-labelledby="svc-h">
+  <div class="wrap">
+    <div class="sec-hd">
+      <div>
+        <span class="kicker">OUR SERVICES</span>
+        <h2 id="svc-h">خدماتنا</h2>
+        <span class="rule"></span>
+      </div>
+      <p>حلول متكاملة تبدأ من الفكرة على الورق، وتنتهي بمشروع يُرى ويُسوَّق بثقة.</p>
+    </div>
+
+    <div class="svc-grid">
+      <article class="svc">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="1.5"/><path d="M3 10h8v11M11 14h10M15 3v7"/></svg></span>
+        <h3>التصميم المعماري 2D</h3>
+        <p>خريطة كاملة بالمقاسات والتوزيع، تُحسب فيها المربوعة ومسارات الحركة واتجاه الشمس والتوسعة المستقبلية.</p>
+        <span class="tag">ARCHITECTURE</span>
+      </article>
+      <article class="svc">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l9 5v10l-9 5-9-5V7z"/><path d="M12 22V12M21 7l-9 5-9-5"/></svg></span>
+        <h3>الرندر ثلاثي الأبعاد</h3>
+        <p>واجهات واقعية بالخامات والألوان وإضاءة النهار والليل، تجرّبها على الشاشة قبل أن تشتري أي مادة.</p>
+        <span class="tag">3D RENDER</span>
+      </article>
+      <article class="svc">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h18M5 20V10l7-6 7 6v10"/><path d="M9 20v-5h6v5"/><circle cx="12" cy="10" r="1.2"/></svg></span>
+        <h3>التصميم الداخلي والجولات</h3>
+        <p>تصميم ورندر للمساحات الداخلية، وفيديو جولة يمشي بك بين الغرف كأن البيت قائم فعلًا.</p>
+        <span class="tag">INTERIOR · WALKTHROUGH</span>
+      </article>
+      <article class="svc">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></span>
+        <h3>التسويق العقاري والمحتوى البصري</h3>
+        <p>هوية المشروع العقاري، ومواد عرض ورندرات تسويقية تساعد المطورين على بيع الوحدات قبل اكتمالها.</p>
+        <span class="tag">REAL ESTATE MARKETING</span>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= AUDIENCE ================= -->
+<section class="sec" id="audience" aria-labelledby="aud-h">
+  <div class="wrap">
+    <div class="sec-hd">
+      <div>
+        <span class="kicker">WHO WE SERVE</span>
+        <h2 id="aud-h">لمن نعمل</h2>
+        <span class="rule"></span>
+      </div>
+      <p>عميلان مختلفان، وسؤال واحد يجمعهما: كيف تتأكد من المشروع قبل أن يتحول إلى خرسانة؟</p>
+    </div>
+
+    <div class="aud-grid">
+      <article class="aud">
+        <div class="ph-img"><img src="owners.jpg" alt="مخططات معمارية على طاولة مع خوذة عليها شعار ماركوديا بيلد" style="object-position:50% 30%"></div>
+        <div class="aud-body">
+          <span class="who">أصحاب البيوت</span>
+          <h3>بيت العمر يُصمَّم مرة واحدة… وبشكل صحيح.</h3>
+          <p>قبل أن تتفق مع المقاول، ترى بيتك كاملًا وتتفق عليه مع عائلتك.</p>
+          <ul>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>مربوعة بمدخل مستقل يحفظ خصوصية البيت</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>لا مساحة ضائعة تدفع ثمن بنائها ولا تستعملها</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>تعديلات على الشاشة بلا تكلفة هدم</li>
+          </ul>
+          <a class="btn btn-primary" href="#contact">ابدأ بمعاينة مجانية</a>
+        </div>
+      </article>
+
+      <article class="aud">
+        <div class="ph-img"><img src="tower.jpg" alt="مبنى زجاجي حديث عليه شعار ماركوديا بيلد" style="object-position:50% 35%"></div>
+        <div class="aud-body">
+          <span class="who">المطورون والمقاولون والمكاتب الهندسية</span>
+          <h3>مشروعك يُباع قبل أن يكتمل.</h3>
+          <p>رندرات ومحتوى بصري وهوية للمشروع، تقدّم وحداتك للمشترين بصورة احترافية.</p>
+          <ul>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>رندرات تسويقية للواجهات والوحدات</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>هوية بصرية ومواد عرض للمشروع العقاري</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>تنفيذ تصاميم لمكاتب مشغولة بجودة ثابتة</li>
+          </ul>
+          <a class="btn btn-ghost" href="#contact">اطلب عرضًا لمشروعك</a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PROCESS ================= -->
+<section class="sec dark" id="process" aria-labelledby="proc-h">
+  <div class="wrap">
+    <div class="sec-hd">
+      <div>
+        <span class="kicker">HOW WE WORK</span>
+        <h2 id="proc-h">من الفكرة إلى مشروع تراه — في سبعة أيام</h2>
+        <span class="rule"></span>
+      </div>
+      <p>ثلاث مراحل تحملها علامتنا في اسمها: نخطط، نبني التصميم، ثم ننمو بمشروعك.</p>
+    </div>
+
+    <div class="proc">
+      <div class="step">
+        <div class="word">PLAN</div>
+        <div class="days">DAY 01</div>
+        <h3>نخطّط معك</h3>
+        <p>معاينة نسمع فيها احتياجك قبل أن نرسم خطًا واحدًا.</p>
+        <ul><li>أبعاد الأرض واتجاهها</li><li>احتياج العائلة أو المشروع</li><li>الميزانية الحقيقية</li></ul>
+      </div>
+      <div class="step">
+        <div class="word">BUILD</div>
+        <div class="days">DAY 02 — 06</div>
+        <h3>نبني التصميم</h3>
+        <p>الخريطة ثم الرندر، ثم تعديلاتك وهي ما تزال على الشاشة.</p>
+        <ul><li>مخطط 2D بالمقاسات</li><li>رندر 3D بالخامات والإضاءة</li><li>تعديلات حتى ترتاح للنتيجة</li></ul>
+      </div>
+      <div class="step">
+        <div class="word">GROW</div>
+        <div class="days">DAY 07</div>
+        <h3>نسلّم وننمو معك</h3>
+        <p>ملفات جاهزة تعطيها للمقاول، أو تبدأ بها تسويق مشروعك.</p>
+        <ul><li>الخريطة والرندر النهائيان</li><li>صيغ ملفات للتنفيذ</li><li>محتوى تسويقي عند الطلب</li></ul>
+      </div>
+    </div>
+    <div class="proc-bar" aria-hidden="true"></div>
+  </div>
+</section>
+
+<!-- ================= WORK ================= -->
+<section class="sec ice" id="work" aria-labelledby="work-h">
+  <div class="wrap">
+    <div class="sec-hd">
+      <div>
+        <span class="kicker">SELECTED WORK</span>
+        <h2 id="work-h">أعمالنا</h2>
+        <span class="rule"></span>
+      </div>
+      <a class="btn btn-dark" href="#contact">اطلب تصميمًا مشابهًا</a>
+    </div>
+
+    <div class="work-grid">
+      <div class="slot big">
+        <span class="dims">[ 20 × 15 m ]</span>
+        <svg class="mk" viewBox="0 0 90.42 70.10" aria-hidden="true"><use href="#mk"/></svg>
+        <div class="cap"><span><b>[اسم المشروع]</b><small>فيلا سكنية · [مساحة الأرض]</small></span><span class="no">01</span></div>
+      </div>
+      <div class="slot">
+        <span class="dims">[ 15 × 10 m ]</span>
+        <svg class="mk" viewBox="0 0 90.42 70.10" aria-hidden="true"><use href="#mk"/></svg>
+        <div class="cap"><span><b>[اسم المشروع]</b><small>بيت دورين · [مساحة الأرض]</small></span><span class="no">02</span></div>
+      </div>
+      <div class="slot">
+        <span class="dims">[ INTERIOR ]</span>
+        <svg class="mk" viewBox="0 0 90.42 70.10" aria-hidden="true"><use href="#mk"/></svg>
+        <div class="cap"><span><b>[اسم المشروع]</b><small>تصميم داخلي · صالة ومطبخ</small></span><span class="no">03</span></div>
+      </div>
+    </div>
+    <p class="work-note">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.01"/></svg>
+      مساحات مخصّصة لرندرات مشاريعكم الفعلية — تُستبدل بالصور عند النشر.
+    </p>
+  </div>
+</section>
+
+<!-- ================= WHY ================= -->
+<section class="sec" aria-labelledby="why-h">
+  <div class="wrap">
+    <div class="why">
+      <div class="why-media">
+        <img src="site.jpg" alt="مهندسان في موقع إنشاء عند الغروب يشيران إلى رافعة">
+        <div class="badge"><span class="v">2018</span><div class="k">نصمم منذ ذلك العام</div></div>
+      </div>
+      <div>
+        <span class="kicker">WHY MARCODEA BUILD</span>
+        <h2 id="why-h" style="font-size:clamp(28px,3.4vw,42px);font-weight:800">لماذا ماركوديا بيلد؟</h2>
+        <span class="rule"></span>
+        <div class="why-list">
+          <div class="why-item">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/><path d="M9 12l2 2 4-4"/></svg></span>
+            <h4>بإشراف مهندس معماري</h4>
+            <p>كل تصميم يمرّ على مهندس قبل أن يصلك. خريطة مدروسة، لا رسمة.</p>
+          </div>
+          <div class="why-item">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></span>
+            <h4>تراه قبل أن تبنيه</h4>
+            <p>رندر واقعي يُنهي التخيّل ويجعل العائلة أو الشركاء يرون الصورة نفسها.</p>
+          </div>
+          <div class="why-item">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg></span>
+            <h4>نفهم البيت الليبي</h4>
+            <p>المربوعة، وحرمة البيت، والمطبخ الخارجي، والتوسعة للأبناء — تفاصيل لا تأتي في القوالب الجاهزة.</p>
+          </div>
+          <div class="why-item">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg></span>
+            <h4>سرعة بلا تنازل</h4>
+            <p>التسليم خلال أسبوع، لأن مشروعك لا يجب أن يتوقف بانتظار التصميم.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CTA / CONTACT ================= -->
+<section class="sec" id="contact" style="padding-top:0" aria-labelledby="cta-h">
+  <div class="wrap">
+    <div class="cta">
+      <div>
+        <span class="kicker">FREE CONSULTATION</span>
+        <h2 id="cta-h">المعاينة الأولى <em>مجانية.</em></h2>
+        <p class="lead">جلسة نراجع فيها أرضك واحتياجك، وتخرج منها بتصور واضح لمشروعك — قبل أي التزام وقبل أي دفع.</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>مراجعة أبعاد الأرض واتجاهها</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>قراءة خريطتك الحالية إن وُجدت، بنقاط قوتها وثغراتها</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>عدد محدود من المعاينات كل شهر</li>
+        </ul>
+        <div class="alt">
+          <span>أو راسلنا مباشرة:</span>
+          <a class="btn btn-wa" href="#contact" aria-label="تواصل عبر واتساب">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.3.8 3.2.7.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3z"/></svg>
+            واتساب
+          </a>
+        </div>
+      </div>
+
+      <form class="form" id="leadForm" novalidate>
+        <h3>احجز معاينتك</h3>
+        <div class="f">
+          <label for="f-name">الاسم</label>
+          <input id="f-name" name="name" type="text" autocomplete="name" placeholder="الاسم الكامل">
+        </div>
+        <div class="f">
+          <label for="f-phone">رقم الهاتف / واتساب</label>
+          <input id="f-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="09X XXX XXXX" dir="ltr" style="text-align:right">
+        </div>
+        <div class="f">
+          <label for="f-type">نوع الطلب</label>
+          <select id="f-type" name="type">
+            <option>بيت خاص</option>
+            <option>مشروع تطوير عقاري</option>
+            <option>مكتب هندسي / مقاول</option>
+          </select>
+        </div>
+        <div class="f">
+          <label for="f-area">مساحة الأرض (م²)</label>
+          <input id="f-area" name="area" type="text" inputmode="numeric" placeholder="مثال: 300">
+        </div>
+        <div class="f full">
+          <label for="f-svc">الخدمة المطلوبة</label>
+          <select id="f-svc" name="service">
+            <option>خريطة 2D + رندر 3D خارجي</option>
+            <option>خريطة 2D فقط</option>
+            <option>تصميم داخلي ورندر</option>
+            <option>فيديو جولة ثلاثية الأبعاد</option>
+            <option>تسويق عقاري ومحتوى بصري</option>
+          </select>
+        </div>
+        <div class="f full">
+          <label for="f-note">ملاحظات (اختياري)</label>
+          <textarea id="f-note" name="note" placeholder="عدد أفراد العائلة، عدد الأدوار، أي تفاصيل تهمك…"></textarea>
+        </div>
+        <button class="btn btn-primary" type="submit">أرسل طلب المعاينة</button>
+        <p class="fine">نرد عليك عبر واتساب. بياناتك لا تُشارك مع أي جهة.</p>
+        <div class="toast" id="toast" hidden>هذه نسخة تجريبية من الموقع — في النسخة الفعلية يصل طلبك مباشرة إلى فريق ماركوديا بيلد.</div>
+      </form>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer class="site-ft">
+  <div class="wrap">
+    <div class="ft-grid">
+      <div class="ft-about">
+        <a class="logo" href="#top" aria-label="MARCODEA BUILD">
+          <svg viewBox="0 0 90.42 70.10" aria-hidden="true"><use href="#mk"/></svg>
+          <span class="wm"><b>MARCODEA</b><i>BUILD</i></span>
+        </a>
+        <p>فرع ماركوديا المتخصص في التسويق العقاري والتصميم المعماري. نحوّل الفكرة إلى مشروع يمتلك حضورًا وقيمة.</p>
+        <span class="ft-tag">PLAN · BUILD · GROW</span>
+      </div>
+      <div>
+        <h4>روابط</h4>
+        <ul>
+          <li><a href="#services">خدماتنا</a></li>
+          <li><a href="#audience">لمن نعمل</a></li>
+          <li><a href="#process">طريقة العمل</a></li>
+          <li><a href="#work">أعمالنا</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>الخدمات</h4>
+        <ul>
+          <li>التصميم المعماري 2D</li>
+          <li>الرندر ثلاثي الأبعاد</li>
+          <li>التصميم الداخلي</li>
+          <li>التسويق العقاري</li>
+        </ul>
+      </div>
+      <div>
+        <h4>تواصل معنا</h4>
+        <ul class="contact">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>منطقة الزروق — مصراتة — ليبيا</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg><span class="en">marcodea@build.ly</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg><span class="en">www.marcodeabuild.ly</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg><span class="ph">[رقم الهاتف]</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="ft-bar">
+      <span>© 2026 ماركوديا بيلد — جميع الحقوق محفوظة</span>
+      <span class="en">MARCODEA BUILD · A MARCODEA COMPANY</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var btn=document.getElementById("menuBtn"), nav=document.getElementById("mnav");
+  btn.addEventListener("click",function(){
+    var open=nav.classList.toggle("open");
+    btn.setAttribute("aria-expanded",open?"true":"false");
+    btn.setAttribute("aria-label",open?"إغلاق القائمة":"فتح القائمة");
+  });
+  nav.addEventListener("click",function(e){
+    if(e.target.closest("a")){ nav.classList.remove("open"); btn.setAttribute("aria-expanded","false"); }
+  });
+
+  var links=[].slice.call(document.querySelectorAll(".nav a"));
+  var ids=["services","audience","process","work","contact"];
+  function onScroll(){
+    var y=window.scrollY+120, cur="top";
+    ids.forEach(function(id){ var s=document.getElementById(id); if(s && s.offsetTop<=y) cur=id; });
+    links.forEach(function(a){ a.classList.toggle("active", a.getAttribute("href")==="#"+cur); });
+  }
+  window.addEventListener("scroll",onScroll,{passive:true});
+
+  document.getElementById("leadForm").addEventListener("submit",function(e){
+    e.preventDefault();
+    var t=document.getElementById("toast"); t.hidden=false;
+  });
+})();
+</script>

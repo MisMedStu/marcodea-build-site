@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.astro/
+.env
+.env.local
+.DS_Store
+*.log
+
+# دليل الهوية الأصلي ثقيل جدًا (53 ميجابايت) ولا يحتاجه البناء
+reference/*.pdf

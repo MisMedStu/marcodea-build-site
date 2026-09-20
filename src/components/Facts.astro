@@ -1,0 +1,74 @@
+---
+import { facts } from '../data/content';
+---
+
+<div class="facts">
+  {
+    facts.map((fact) => (
+      <div class="fact">
+        <span class:list={['v', fact.arabic && 'ar']} dir={fact.arabic ? undefined : 'ltr'}>
+          {fact.value}
+        </span>
+        <div class="k">{fact.label}</div>
+      </div>
+    ))
+  }
+</div>
+
+<style>
+  .facts {
+    border-top: 1px solid var(--line-dark);
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .fact {
+    padding: 26px 24px;
+    border-inline-start: 1px solid var(--line-dark);
+  }
+
+  .fact:first-child {
+    border-inline-start: 0;
+    padding-inline-start: 0;
+  }
+
+  .v {
+    font-family: var(--f-en);
+    font-weight: 800;
+    font-size: 30px;
+    color: var(--white);
+    line-height: 1.1;
+    unicode-bidi: isolate;
+    display: inline-block;
+  }
+
+  .v.ar {
+    font-family: var(--f-ar);
+    font-size: 24px;
+  }
+
+  .k {
+    font-size: 13.5px;
+    color: rgba(255, 255, 255, 0.66);
+    margin-top: 6px;
+  }
+
+  @media (max-width: 900px) {
+    .facts {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .fact {
+      padding: 20px 16px;
+    }
+
+    .fact:nth-child(3) {
+      border-inline-start: 0;
+      padding-inline-start: 0;
+    }
+
+    .fact:nth-child(n + 3) {
+      border-top: 1px solid var(--line-dark);
+    }
+  }
+</style>
