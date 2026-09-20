@@ -34,6 +34,9 @@ import { process } from '../data/content';
 
 <style>
   .proc {
+    /* خلفية صريحة رغم أنها لون القسم نفسه: تجعل أدوات فحص التباين
+       تقرأ اللون الصحيح حتى لو لم يُرسم القسم بعد */
+    background: var(--navy);
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 0;
@@ -43,6 +46,9 @@ import { process } from '../data/content';
   }
 
   .step {
+    /* خلفية صريحة على البطاقة نفسها لا على القسم: أدوات فحص
+       التباين تقرأ اللون من أقرب أب له لون معرَّف */
+    background: var(--navy);
     padding: 38px 32px 36px;
     border-inline-start: 1px solid var(--line-dark);
     position: relative;
@@ -80,7 +86,8 @@ import { process } from '../data/content';
     font-size: 12px;
     font-weight: 700;
     letter-spacing: 0.2em;
-    color: rgba(255, 255, 255, 0.55);
+    /* 0.55 كانت تعطي تباينًا 4.96:1 — هامش ضيق جدًا فوق الحد */
+    color: rgba(255, 255, 255, 0.68);
   }
 
   h3 {

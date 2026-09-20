@@ -1,9 +1,11 @@
 /**
  * مصدر مشاريع المعرض.
  *
- * الترتيب: إذا ضُبطت بيانات Sanity تُقرأ المشاريع منها،
- * وإلا تُقرأ من src/data/projects.json، وإن كان فارغًا
- * تظهر البطاقات الفارغة بنمط المخطط الهندسي.
+ * الموقع لا يرتبط بخدمة واحدة: اختر الخدمة التي قَبِلت تسجيلك
+ * بوضع اسمها في PUBLIC_CMS_PROVIDER داخل ملف .env، وضع مفتاحها معها.
+ *
+ * إن لم تُضبط أي خدمة تُقرأ المشاريع من src/data/projects.json،
+ * وإن كان فارغًا تظهر البطاقات الفارغة بنمط المخطط الهندسي.
  *
  * تُستدعى وقت البناء فقط — لا طلبات شبكة عند الزائر.
  */
@@ -19,19 +21,49 @@ export interface Project {
   dims?: string;
   /** وصف الصورة لقارئات الشاشة */
   imageAlt: string;
-  /** رابط الصورة (من Sanity) */
+  /** رابط الصورة من الخدمة المختارة */
   imageUrl?: string;
 }
 
-function isSanityConfigured(): boolean {
-  return Boolean(import.meta.env.PUBLIC_SANITY_PROJECT_ID);
+export type CmsProvider = 'none' | 'storyblok' | 'datocms' | 'sanity';
+
+function currentProvider(): CmsProvider {
+  const provider = (import.meta.env.PUBLIC_CMS_PROVIDER ?? '').trim().toLowerCase();
+
+  if (provider === 'storyblok' || provider === 'datocms' || provider === 'sanity') {
+    return provider;
+  }
+  return 'none';
+}
+
+async function fetchFromProvider(provider: Exclude<CmsProvider, 'none'>): Promise<Project[]> {
+  if (provider === 'storyblok') {
+    const { getStoryblokProjects } = await import('./cms/storyblok');
+    return getStoryblokProjects();
+  }
+  if (provider === 'datocms') {
+    const { getDatoProjects } = await import('./cms/datocms');
+    return getDatoProjects();
+  }
+  const { getSanityProjects } = await import('./cms/sanity');
+  return getSanityProjects();
 }
 
 export async function getProjects(): Promise<Project[]> {
-  if (isSanityConfigured()) {
-    const { getSanityProjects } = await import('./sanity');
-    return getSanityProjects();
+  const provider = currentProvider();
+
+  if (provider === 'none') {
+    return localProjects as Project[];
   }
 
-  return localProjects as Project[];
+  try {
+    return await fetchFromProvider(provider);
+  } catch (error) {
+    // خدمة خارجية متعطّلة يجب ألا تُسقط نشر الموقع
+    console.warn(
+      `[cms] تعذّر جلب المشاريع من ${provider}، ستظهر البطاقات الفارغة:`,
+      error instanceof Error ? error.message : error
+    );
+    return [];
+  }
 }

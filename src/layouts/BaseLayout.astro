@@ -5,8 +5,7 @@ import { header } from '../data/content';
 import SchemaOrg from '../components/SchemaOrg.astro';
 
 // تحميل مسبق للخطين الأساسيين: يمنع قفزة النص عند وصول الخط (CLS)
-import alexandriaArabic from '@fontsource-variable/alexandria/files/alexandria-arabic-wght-normal.woff2?url';
-import montserratLatin from '@fontsource-variable/montserrat/files/montserrat-latin-wght-normal.woff2?url';
+import alexandriaArabic from '../assets/fonts/alexandria-arabic.woff2?url';
 
 interface Props {
   title?: string;
@@ -25,7 +24,6 @@ const ogImage = new URL(seo.ogImage, Astro.site ?? site.url).href;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <link rel="preload" href={alexandriaArabic} as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href={montserratLatin} as="font" type="font/woff2" crossorigin />
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />

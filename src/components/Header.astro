@@ -69,24 +69,47 @@ import { nav, header } from '../data/content';
     });
   }
 
-  // إبراز القسم الحالي في القائمة أثناء التمرير
+  // إبراز القسم الحالي في القائمة أثناء التمرير.
+  // المواضع تُقاس مرة واحدة وتُخزَّن، ولا تُقرأ أثناء التمرير،
+  // حتى لا يُجبَر المتصفح على إعادة حساب التخطيط في كل حركة.
   const links = Array.from(document.querySelectorAll<HTMLAnchorElement>('.nav a'));
-  const ids = ['services', 'audience', 'process', 'work', 'contact'];
+  const sections = ['services', 'audience', 'process', 'work', 'contact']
+    .map((id) => document.getElementById(id))
+    .filter((section): section is HTMLElement => section !== null);
 
-  function markActive() {
-    const y = window.scrollY + 120;
-    let current = 'top';
-    for (const id of ids) {
-      const section = document.getElementById(id);
-      if (section && section.offsetTop <= y) current = id;
+  if (links.length > 0 && sections.length > 0) {
+    let offsets: { id: string; top: number }[] = [];
+
+    function measure() {
+      offsets = sections.map((section) => ({ id: section.id, top: section.offsetTop }));
     }
-    for (const link of links) {
-      link.classList.toggle('active', link.getAttribute('href') === `#${current}`);
+
+    function highlight() {
+      const line = window.scrollY + 120;
+      let current = 'top';
+      for (const offset of offsets) {
+        if (offset.top <= line) current = offset.id;
+      }
+      for (const link of links) {
+        link.classList.toggle('active', link.getAttribute('href') === `#${current}`);
+      }
     }
+
+    measure();
+    highlight();
+
+    // لا قراءة للتخطيط هنا: مقارنة خمسة أرقام محفوظة وتبديل صنف،
+    // فلا حاجة إلى تأجيل بإطار رسم قد لا يعمل في تبويب مخفي
+    window.addEventListener('scroll', highlight, { passive: true });
+
+    // ارتفاعات الأقسام تتغيّر عند تغيّر العرض أو عند رسم قسم مؤجَّل،
+    // فتُعاد القياسات عندها لا عند كل تمرير
+    const resizeObserver = new ResizeObserver(() => {
+      measure();
+      highlight();
+    });
+    for (const section of sections) resizeObserver.observe(section);
   }
-
-  window.addEventListener('scroll', markActive, { passive: true });
-  markActive();
 </script>
 
 <style>
@@ -94,8 +117,9 @@ import { nav, header } from '../data/content';
     position: sticky;
     top: 0;
     z-index: 30;
+    /* الخلفية معتمة 96%، فضبابية الخلفية خلفها لا تكاد تُرى
+       لكنها تُكلّف المتصفح طبقة تركيب على عرض الشاشة كله */
     background: rgba(8, 43, 111, 0.96);
-    backdrop-filter: blur(8px);
     border-bottom: 1px solid var(--line-dark);
   }
 

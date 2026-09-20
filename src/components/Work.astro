@@ -151,7 +151,8 @@ const shown = hasProjects ? projects.slice(0, 3) : [];
     direction: ltr;
     font-size: 11px;
     letter-spacing: 0.14em;
-    color: rgba(255, 255, 255, 0.5);
+    /* 0.5 كانت تعطي 4.49:1 — تحت الحد المطلوب */
+    color: rgba(255, 255, 255, 0.64);
   }
 
   .work-note {

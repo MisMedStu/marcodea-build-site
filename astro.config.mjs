@@ -8,10 +8,6 @@ export default defineConfig({
   trailingSlash: 'ignore',
   integrations: [sitemap()],
   build: { inlineStylesheets: 'auto' },
-  image: {
-    // صور Sanity تُجلب وقت البناء وتُحسَّن محليًا
-    domains: ['cdn.sanity.io'],
-  },
   vite: {
     plugins: [tailwindcss()],
   },
