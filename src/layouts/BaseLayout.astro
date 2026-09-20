@@ -2,6 +2,11 @@
 import '../styles/global.css';
 import { seo, site } from '../data/site';
 import { header } from '../data/content';
+import SchemaOrg from '../components/SchemaOrg.astro';
+
+// تحميل مسبق للخطين الأساسيين: يمنع قفزة النص عند وصول الخط (CLS)
+import alexandriaArabic from '@fontsource-variable/alexandria/files/alexandria-arabic-wght-normal.woff2?url';
+import montserratLatin from '@fontsource-variable/montserrat/files/montserrat-latin-wght-normal.woff2?url';
 
 interface Props {
   title?: string;
@@ -18,6 +23,9 @@ const ogImage = new URL(seo.ogImage, Astro.site ?? site.url).href;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link rel="preload" href={alexandriaArabic} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={montserratLatin} as="font" type="font/woff2" crossorigin />
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
@@ -38,6 +46,8 @@ const ogImage = new URL(seo.ogImage, Astro.site ?? site.url).href;
     <meta name="theme-color" content="#082B6F" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <SchemaOrg />
   </head>
 
   <body>

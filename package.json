@@ -11,10 +11,13 @@
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
-    "verify": "astro check && astro build"
+    "verify": "astro check && astro build",
+    "og": "node scripts/og-image.mjs",
+    "lh": "node scripts/lighthouse.mjs"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.10",
+    "@astrojs/sitemap": "^3.7.4",
     "@fontsource-variable/alexandria": "^5.3.0",
     "@fontsource-variable/montserrat": "^5.3.0",
     "@tailwindcss/vite": "^4.3.3",
@@ -26,5 +29,9 @@
   "allowScripts": {
     "esbuild@0.28.2": true,
     "sharp@0.35.4": true
+  },
+  "devDependencies": {
+    "lighthouse": "^13.5.0",
+    "puppeteer-core": "^25.11.0"
   }
 }

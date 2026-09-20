@@ -12,16 +12,17 @@ interface Props {
   ariaLabel?: string;
 }
 
-const { variant = 'light', href, ariaLabel = brand.homeLabel } = Astro.props;
+const { variant = 'light', href, ariaLabel } = Astro.props;
 const Tag = href ? 'a' : 'span';
 ---
 
-<Tag class:list={['logo', variant === 'dark' && 'on-light']} href={href} aria-label={ariaLabel}>
+<Tag class:list={['logo', variant === 'dark' && 'on-light']} href={href}>
   <Logomark />
   <span class="wm">
     <b>{brand.nameEn}</b>
     <i>{brand.nameEnSub}</i>
   </span>
+  {href && <span class="sr-only">{ariaLabel ?? brand.homeLabel}</span>}
 </Tag>
 
 <style>
