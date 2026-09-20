@@ -1,0 +1,49 @@
+---
+/** زر واتساب عائم — يظهر على الجوال واللوحي فقط */
+import Icon from './Icon.astro';
+import { footer } from '../data/content';
+import { WHATSAPP_NUMBER, WHATSAPP_DISPLAY } from '../data/site';
+---
+
+<a
+  class="wa-fab"
+  href={`https://wa.me/${WHATSAPP_NUMBER}`}
+  aria-label={`${footer.whatsappFab} ${WHATSAPP_DISPLAY}`}
+  rel="noopener"
+  target="_blank"
+>
+  <Icon name="whatsapp" />
+</a>
+
+<style>
+  .wa-fab {
+    display: none;
+    position: fixed;
+    inset-inline-start: 18px;
+    bottom: 18px;
+    z-index: 40;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--color-wa);
+    color: var(--white);
+    place-items: center;
+    box-shadow: var(--shadow-card);
+    transition: background 0.2s ease;
+  }
+
+  .wa-fab:hover {
+    background: var(--color-wa-hover);
+  }
+
+  .wa-fab :global(svg) {
+    width: 28px;
+    height: 28px;
+  }
+
+  @media (max-width: 900px) {
+    .wa-fab {
+      display: grid;
+    }
+  }
+</style>

@@ -1,0 +1,196 @@
+---
+import Section from './Section.astro';
+import SectionHead from './SectionHead.astro';
+import Button from './Button.astro';
+import Icon from './Icon.astro';
+import Logomark from './Logomark.astro';
+import { work } from '../data/content';
+import { getProjects } from '../lib/projects';
+
+const projects = await getProjects();
+const hasProjects = projects.length > 0;
+
+// المعرض ثلاث بطاقات: الأولى كبيرة، وبطاقتان بجانبها
+const shown = hasProjects ? projects.slice(0, 3) : [];
+---
+
+<Section id="work" tone="ice" labelledby="work-h">
+  <SectionHead kicker={work.kicker} title={work.title} titleId="work-h">
+    <Button href="#contact" variant="dark">{work.cta}</Button>
+  </SectionHead>
+
+  <div class="work-grid">
+    {
+      hasProjects
+        ? shown.map((project, i) => (
+            <article class:list={['slot', i === 0 && 'big']}>
+              {project.imageUrl && (
+                <img src={project.imageUrl} alt={project.imageAlt} loading="lazy" decoding="async" />
+              )}
+              {project.dims && <span class="dims">{project.dims}</span>}
+              <div class="cap">
+                <span>
+                  <b>{project.title}</b>
+                  <small>{project.meta}</small>
+                </span>
+                <span class="no">{String(i + 1).padStart(2, '0')}</span>
+              </div>
+            </article>
+          ))
+        : work.placeholders.map((slot, i) => (
+            <div class:list={['slot', i === 0 && 'big']}>
+              <span class="dims">{slot.dims}</span>
+              <Logomark class="mk" />
+              <div class="cap">
+                <span>
+                  <b>{slot.title}</b>
+                  <small>{slot.meta}</small>
+                </span>
+                <span class="no">{String(i + 1).padStart(2, '0')}</span>
+              </div>
+            </div>
+          ))
+    }
+  </div>
+
+  {
+    !hasProjects && (
+      <p class="work-note">
+        <Icon name="info" />
+        {work.note}
+      </p>
+    )
+  }
+</Section>
+
+<style>
+  .work-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 18px;
+    height: 560px;
+  }
+
+  .slot {
+    position: relative;
+    border-radius: var(--r);
+    overflow: hidden;
+    background: var(--navy);
+    background-image:
+      linear-gradient(rgba(34, 215, 247, 0.1) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(34, 215, 247, 0.1) 1px, transparent 1px),
+      linear-gradient(rgba(34, 215, 247, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(34, 215, 247, 0.05) 1px, transparent 1px);
+    background-size:
+      80px 80px,
+      80px 80px,
+      16px 16px,
+      16px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 24px;
+    color: var(--white);
+  }
+
+  .slot.big {
+    grid-row: span 2;
+  }
+
+  .slot > :global(img) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .slot :global(.mk) {
+    width: 72px;
+    opacity: 0.9;
+  }
+
+  .slot.big :global(.mk) {
+    width: 120px;
+  }
+
+  .cap {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 14px;
+    position: relative;
+  }
+
+  .cap b {
+    display: block;
+    font-size: 17px;
+  }
+
+  .cap small {
+    display: block;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.62);
+  }
+
+  .no {
+    font-family: var(--f-en);
+    font-weight: 800;
+    font-size: 13px;
+    letter-spacing: 0.2em;
+    color: var(--cyan);
+    direction: ltr;
+  }
+
+  .dims {
+    position: absolute;
+    inset-inline-start: 24px;
+    top: 24px;
+    font-family: var(--f-en);
+    direction: ltr;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  .work-note {
+    margin-top: 18px;
+    font-size: 13.5px;
+    color: var(--ink-3);
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .work-note :global(svg) {
+    width: 16px;
+    height: 16px;
+    color: var(--blue);
+    flex: none;
+  }
+
+  @media (max-width: 900px) {
+    .work-grid {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto;
+      height: auto;
+    }
+
+    .slot {
+      min-height: 220px;
+    }
+
+    .slot.big {
+      grid-column: 1 / -1;
+      grid-row: auto;
+      min-height: 300px;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .work-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

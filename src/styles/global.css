@@ -177,3 +177,73 @@ section {
     scroll-behavior: auto !important;
   }
 }
+
+/* ===================== هيكل الأقسام ===================== */
+
+.sec {
+  padding-block: 96px;
+}
+
+.sec.ice {
+  background: var(--ice);
+}
+
+.sec.dark {
+  background: var(--navy);
+  color: var(--white);
+}
+
+.sec-hd {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 48px;
+  flex-wrap: wrap;
+}
+
+.sec-hd h2 {
+  font-size: clamp(28px, 3.4vw, 42px);
+  font-weight: 800;
+}
+
+.sec-hd p {
+  color: var(--ink-2);
+  max-width: 48ch;
+  font-size: 16px;
+}
+
+.sec.dark .sec-hd p {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.kicker {
+  font-family: var(--f-en);
+  direction: ltr;
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.32em;
+  color: var(--blue);
+  margin-bottom: 12px;
+}
+
+.sec.dark .kicker {
+  color: var(--cyan);
+}
+
+/* الشريط الرفيع تحت العناوين — التدرّج الوحيد المسموح به */
+.rule {
+  display: block;
+  width: 56px;
+  height: 3px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--cyan), var(--blue));
+  margin-top: 16px;
+}
+
+@media (max-width: 560px) {
+  .sec {
+    padding-block: 68px;
+  }
+}

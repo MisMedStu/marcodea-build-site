@@ -1,0 +1,44 @@
+---
+/**
+ * ترويسة قسم: العنوان الإنجليزي الصغير، ثم العنوان العربي، ثم الشريط.
+ * layout="row"   — العنوان يمينًا والنص أو الزر يسارًا (الافتراضي)
+ * layout="plain" — بلا صف، للاستعمال داخل تخطيط خاص (قسم «لماذا»)
+ */
+interface Props {
+  kicker: string;
+  title: string;
+  titleId: string;
+  lead?: string;
+  layout?: 'row' | 'plain';
+}
+
+const { kicker, title, titleId, lead, layout = 'row' } = Astro.props;
+---
+
+{
+  layout === 'row' ? (
+    <div class="sec-hd">
+      <div>
+        <span class="kicker">{kicker}</span>
+        <h2 id={titleId}>{title}</h2>
+        <span class="rule" />
+      </div>
+      {lead ? <p>{lead}</p> : <slot />}
+    </div>
+  ) : (
+    <>
+      <span class="kicker">{kicker}</span>
+      <h2 id={titleId} class="plain-title">
+        {title}
+      </h2>
+      <span class="rule" />
+    </>
+  )
+}
+
+<style>
+  .plain-title {
+    font-size: clamp(28px, 3.4vw, 42px);
+    font-weight: 800;
+  }
+</style>

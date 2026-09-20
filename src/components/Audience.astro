@@ -1,0 +1,160 @@
+---
+import { Picture } from 'astro:assets';
+import Section from './Section.astro';
+import SectionHead from './SectionHead.astro';
+import Button from './Button.astro';
+import Icon from './Icon.astro';
+import { audience } from '../data/content';
+import ownersImage from '../assets/owners.jpg';
+import towerImage from '../assets/tower.jpg';
+
+const images = { owners: ownersImage, tower: towerImage };
+---
+
+<Section id="audience" labelledby="aud-h">
+  <SectionHead
+    kicker={audience.kicker}
+    title={audience.title}
+    titleId="aud-h"
+    lead={audience.lead}
+  />
+
+  <div class="aud-grid">
+    {
+      audience.items.map((item) => (
+        <article class="aud">
+          <div class="ph-img">
+            <Picture
+              src={images[item.image]}
+              alt={item.imageAlt}
+              widths={[420, 640, 860]}
+              sizes="(max-width: 900px) 92vw, 46vw"
+              loading="lazy"
+              formats={['avif', 'webp']}
+              fallbackFormat="jpg"
+              style={`object-position:${item.imagePosition}`}
+            />
+          </div>
+
+          <div class="aud-body">
+            <span class="who">{item.who}</span>
+            <h3>{item.title}</h3>
+            <p>{item.text}</p>
+            <ul>
+              {item.points.map((point) => (
+                <li>
+                  <Icon name="check" />
+                  {point}
+                </li>
+              ))}
+            </ul>
+            <Button href="#contact" variant={item.ctaStyle === 'ghost' ? 'ghost' : 'primary'}>
+              {item.cta}
+            </Button>
+          </div>
+        </article>
+      ))
+    }
+  </div>
+</Section>
+
+<style>
+  .aud-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+  }
+
+  .aud {
+    position: relative;
+    border-radius: 24px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    background: var(--navy);
+    color: var(--white);
+  }
+
+  .ph-img {
+    height: 270px;
+    overflow: hidden;
+    flex: none;
+  }
+
+  .ph-img :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .aud-body {
+    padding: 30px 32px 34px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex: 1;
+  }
+
+  .who {
+    display: inline-flex;
+    align-self: flex-start;
+    font-size: 12.5px;
+    font-weight: 600;
+    background: rgba(34, 215, 247, 0.14);
+    color: var(--cyan);
+    border: 1px solid rgba(34, 215, 247, 0.4);
+    padding: 4px 14px;
+    border-radius: 999px;
+  }
+
+  h3 {
+    font-size: clamp(22px, 2.4vw, 28px);
+    font-weight: 800;
+  }
+
+  p {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 15px;
+  }
+
+  ul {
+    list-style: none;
+    margin: 4px 0 10px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    font-size: 14.5px;
+  }
+
+  li {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  li :global(svg) {
+    width: 18px;
+    height: 18px;
+    flex: none;
+    color: var(--cyan);
+    margin-top: 5px;
+  }
+
+  .aud-body :global(.btn) {
+    align-self: flex-start;
+    margin-top: auto;
+  }
+
+  @media (max-width: 900px) {
+    .aud-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .aud-body {
+      padding: 24px;
+    }
+  }
+</style>

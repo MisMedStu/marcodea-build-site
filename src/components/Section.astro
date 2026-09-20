@@ -1,0 +1,24 @@
+---
+/**
+ * غلاف قسم: يضبط الخلفية والحشو والحاوية القصوى.
+ * tone: light (أبيض) · ice (رمادي فاتح) · dark (navy)
+ */
+interface Props {
+  id?: string;
+  tone?: 'light' | 'ice' | 'dark';
+  labelledby?: string;
+  class?: string;
+}
+
+const { id, tone = 'light', labelledby, class: className } = Astro.props;
+---
+
+<section
+  id={id}
+  class:list={['sec', tone === 'ice' && 'ice', tone === 'dark' && 'dark', className]}
+  aria-labelledby={labelledby}
+>
+  <div class="wrap">
+    <slot />
+  </div>
+</section>

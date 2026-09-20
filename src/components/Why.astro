@@ -1,0 +1,144 @@
+---
+import { Picture } from 'astro:assets';
+import Section from './Section.astro';
+import SectionHead from './SectionHead.astro';
+import Icon from './Icon.astro';
+import { why } from '../data/content';
+import type { IconName } from '../data/icons';
+import siteImage from '../assets/site.jpg';
+---
+
+<Section labelledby="why-h">
+  <div class="why">
+    <div class="why-media">
+      <Picture
+        src={siteImage}
+        alt={why.imageAlt}
+        widths={[380, 560, 760]}
+        sizes="(max-width: 900px) 92vw, 40vw"
+        loading="lazy"
+        formats={['avif', 'webp']}
+        fallbackFormat="jpg"
+      />
+      <div class="badge">
+        <span class="v" dir="ltr">{why.badge.value}</span>
+        <div class="k">{why.badge.label}</div>
+      </div>
+    </div>
+
+    <div>
+      <SectionHead kicker={why.kicker} title={why.title} titleId="why-h" layout="plain" />
+
+      <div class="why-list">
+        {
+          why.items.map((item) => (
+            <div class="why-item">
+              <span class="ic">
+                <Icon name={item.icon as IconName} />
+              </span>
+              <h4>{item.title}</h4>
+              <p>{item.text}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</Section>
+
+<style>
+  .why {
+    display: grid;
+    grid-template-columns: 0.95fr 1.05fr;
+    gap: 56px;
+    align-items: center;
+  }
+
+  .why-media {
+    position: relative;
+    border-radius: 24px;
+    overflow: hidden;
+    aspect-ratio: 4 / 4.3;
+    max-width: 100%;
+  }
+
+  .why-media :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .badge {
+    position: absolute;
+    inset-inline-start: 22px;
+    bottom: 22px;
+    background: var(--white);
+    border-radius: 16px;
+    padding: 16px 20px;
+    box-shadow: var(--shadow-card);
+  }
+
+  .badge .v {
+    font-family: var(--f-en);
+    font-weight: 800;
+    font-size: 34px;
+    color: var(--navy);
+    line-height: 1;
+    display: inline-block;
+  }
+
+  .badge .k {
+    font-size: 13px;
+    color: var(--ink-2);
+    margin-top: 4px;
+  }
+
+  .why-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 26px 28px;
+    margin-top: 34px;
+  }
+
+  .why-item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .why-item .ic {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: var(--ice);
+    color: var(--blue);
+    display: grid;
+    place-items: center;
+  }
+
+  .why-item .ic :global(svg) {
+    width: 22px;
+    height: 22px;
+  }
+
+  h4 {
+    font-size: 16.5px;
+  }
+
+  p {
+    font-size: 14.5px;
+    color: var(--ink-2);
+  }
+
+  @media (max-width: 900px) {
+    .why {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .why-list {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

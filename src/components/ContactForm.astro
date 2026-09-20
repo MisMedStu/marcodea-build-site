@@ -1,0 +1,317 @@
+---
+import Section from './Section.astro';
+import Button from './Button.astro';
+import Icon from './Icon.astro';
+import { contact, form } from '../data/content';
+import { WHATSAPP_NUMBER } from '../data/site';
+
+// ما يحتاجه السكربت فقط — لا يُرسَل باقي المحتوى إلى المتصفح
+const formConfig = {
+  whatsapp: WHATSAPP_NUMBER,
+  errors: form.errors,
+  heading: form.whatsappHeading,
+  labels: form.whatsappLabels,
+  areaUnit: form.areaUnit,
+};
+---
+
+<Section id="contact" labelledby="cta-h" class="contact-sec">
+  <div class="cta">
+    <div>
+      <span class="kicker">{contact.kicker}</span>
+      <h2 id="cta-h">
+        {contact.titleLead}
+        <em>{contact.titleAccent}</em>
+      </h2>
+      <p class="lead">{contact.lead}</p>
+
+      <ul>
+        {
+          contact.points.map((point) => (
+            <li>
+              <Icon name="check" />
+              {point}
+            </li>
+          ))
+        }
+      </ul>
+
+      <div class="alt">
+        <span>{contact.altText}</span>
+        <Button
+          href={`https://wa.me/${WHATSAPP_NUMBER}`}
+          variant="wa"
+          ariaLabel={contact.whatsappAria}
+        >
+          <Icon name="whatsapp" />
+          {contact.whatsappCta}
+        </Button>
+      </div>
+    </div>
+
+    <form class="form" id="leadForm" novalidate>
+      <h3>{form.title}</h3>
+
+      <div class="f">
+        <label for="f-name">{form.fields.name.label}</label>
+        <input
+          id="f-name"
+          name="name"
+          type="text"
+          autocomplete="name"
+          placeholder={form.fields.name.placeholder}
+          aria-describedby="e-name"
+          required
+        />
+        <p class="err" id="e-name" role="alert"></p>
+      </div>
+
+      <div class="f">
+        <label for="f-phone">{form.fields.phone.label}</label>
+        <input
+          id="f-phone"
+          name="phone"
+          type="tel"
+          autocomplete="tel"
+          inputmode="tel"
+          placeholder={form.fields.phone.placeholder}
+          dir="ltr"
+          aria-describedby="e-phone"
+          required
+        />
+        <p class="err" id="e-phone" role="alert"></p>
+      </div>
+
+      <div class="f">
+        <label for="f-type">{form.fields.type.label}</label>
+        <select id="f-type" name="type">
+          {form.typeOptions.map((option) => <option>{option}</option>)}
+        </select>
+      </div>
+
+      <div class="f">
+        <label for="f-area">{form.fields.area.label}</label>
+        <input
+          id="f-area"
+          name="area"
+          type="text"
+          inputmode="numeric"
+          placeholder={form.fields.area.placeholder}
+          dir="ltr"
+          aria-describedby="e-area"
+        />
+        <p class="err" id="e-area" role="alert"></p>
+      </div>
+
+      <div class="f full">
+        <label for="f-svc">{form.fields.service.label}</label>
+        <select id="f-svc" name="service">
+          {form.serviceOptions.map((option) => <option>{option}</option>)}
+        </select>
+      </div>
+
+      <div class="f full">
+        <label for="f-note">{form.fields.note.label}</label>
+        <textarea id="f-note" name="note" placeholder={form.fields.note.placeholder}></textarea>
+      </div>
+
+      <Button type="submit" variant="primary" block>{form.submit}</Button>
+      <p class="fine">{form.fine}</p>
+
+      <div class="toast" id="toast" role="status" hidden>
+        <b>{form.success.title}</b>
+        <span>{form.success.text}</span>
+      </div>
+    </form>
+  </div>
+</Section>
+
+<script type="application/json" id="form-config" set:html={JSON.stringify(formConfig)} />
+
+<script>
+  import { initContactForm } from '../scripts/contact-form';
+  initContactForm();
+</script>
+
+<style>
+  :global(.contact-sec) {
+    padding-top: 0;
+  }
+
+  .cta {
+    position: relative;
+    overflow: hidden;
+    border-radius: 28px;
+    color: var(--white);
+    background:
+      radial-gradient(700px 380px at 12% 110%, rgba(34, 215, 247, 0.28), transparent 60%),
+      var(--navy);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    padding: 56px;
+  }
+
+  h2 {
+    font-size: clamp(28px, 3.2vw, 40px);
+    font-weight: 800;
+  }
+
+  h2 em {
+    font-style: normal;
+    color: var(--cyan);
+  }
+
+  .lead {
+    color: rgba(255, 255, 255, 0.78);
+    margin-top: 14px;
+    max-width: 44ch;
+  }
+
+  ul {
+    list-style: none;
+    margin: 24px 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  li {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  li :global(svg) {
+    width: 20px;
+    height: 20px;
+    color: var(--cyan);
+    flex: none;
+    margin-top: 4px;
+  }
+
+  .alt {
+    margin-top: 28px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+    color: rgba(255, 255, 255, 0.65);
+    font-size: 14px;
+  }
+
+  .form {
+    background: var(--white);
+    color: var(--ink);
+    border-radius: 22px;
+    padding: 28px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    align-content: start;
+  }
+
+  h3 {
+    grid-column: 1 / -1;
+    font-size: 19px;
+    margin-bottom: 2px;
+  }
+
+  .f {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .f.full {
+    grid-column: 1 / -1;
+  }
+
+  label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink-2);
+  }
+
+  input,
+  select,
+  textarea {
+    width: 100%;
+    border: 1.5px solid var(--line);
+    border-radius: 12px;
+    padding: 12px 14px;
+    background: var(--white);
+    color: var(--ink);
+    min-height: 48px;
+  }
+
+  textarea {
+    min-height: 92px;
+    resize: vertical;
+  }
+
+  input:focus,
+  select:focus,
+  textarea:focus {
+    outline: none;
+    border-color: var(--blue);
+    box-shadow: 0 0 0 4px rgba(18, 102, 255, 0.12);
+  }
+
+  input[aria-invalid='true'] {
+    border-color: #c02626;
+  }
+
+  .err {
+    font-size: 12.5px;
+    color: #c02626;
+    line-height: 1.6;
+  }
+
+  .err:empty {
+    display: none;
+  }
+
+  .form :global(.btn) {
+    grid-column: 1 / -1;
+  }
+
+  .fine {
+    grid-column: 1 / -1;
+    font-size: 12.5px;
+    color: var(--ink-3);
+    text-align: center;
+  }
+
+  .toast {
+    grid-column: 1 / -1;
+    background: var(--ice);
+    border: 1px solid #bfd3ea;
+    border-radius: 12px;
+    padding: 12px 14px;
+    font-size: 14px;
+    color: var(--navy);
+  }
+
+  .toast b {
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  @media (max-width: 900px) {
+    .cta {
+      grid-template-columns: 1fr;
+      padding: 34px 24px;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .form {
+      grid-template-columns: 1fr;
+      padding: 22px;
+    }
+  }
+</style>

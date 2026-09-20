@@ -1,0 +1,137 @@
+---
+import Section from './Section.astro';
+import SectionHead from './SectionHead.astro';
+import { process } from '../data/content';
+---
+
+<Section id="process" tone="dark" labelledby="proc-h">
+  <SectionHead
+    kicker={process.kicker}
+    title={process.title}
+    titleId="proc-h"
+    lead={process.lead}
+  />
+
+  <div class="proc">
+    {
+      process.steps.map((step) => (
+        <div class="step">
+          <div class="word">{step.word}</div>
+          <div class="days">{step.days}</div>
+          <h3>{step.title}</h3>
+          <p>{step.text}</p>
+          <ul>
+            {step.points.map((point) => (
+              <li>{point}</li>
+            ))}
+          </ul>
+        </div>
+      ))
+    }
+  </div>
+  <div class="proc-bar" aria-hidden="true"></div>
+</Section>
+
+<style>
+  .proc {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border: 1px solid var(--line-dark);
+    border-radius: 24px;
+    overflow: hidden;
+  }
+
+  .step {
+    padding: 38px 32px 36px;
+    border-inline-start: 1px solid var(--line-dark);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .step:first-child {
+    border-inline-start: 0;
+  }
+
+  .word {
+    font-family: var(--f-en);
+    direction: ltr;
+    text-align: right;
+    font-weight: 800;
+    font-size: 44px;
+    letter-spacing: 0.06em;
+    line-height: 1;
+    color: transparent;
+    -webkit-text-stroke: 1.2px rgba(34, 215, 247, 0.75);
+    transition: color 0.3s;
+  }
+
+  .step:hover .word {
+    color: var(--cyan);
+    -webkit-text-stroke: 0;
+  }
+
+  .days {
+    font-family: var(--f-en);
+    direction: ltr;
+    text-align: right;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: rgba(255, 255, 255, 0.55);
+  }
+
+  h3 {
+    font-size: 21px;
+    font-weight: 700;
+  }
+
+  p {
+    font-size: 14.5px;
+    color: rgba(255, 255, 255, 0.72);
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.86);
+  }
+
+  li::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--cyan);
+    margin-inline-end: 10px;
+    vertical-align: middle;
+  }
+
+  .proc-bar {
+    height: 4px;
+    background: linear-gradient(90deg, var(--cyan), var(--blue));
+  }
+
+  @media (max-width: 900px) {
+    .proc {
+      grid-template-columns: 1fr;
+    }
+
+    .step {
+      border-inline-start: 0;
+      border-top: 1px solid var(--line-dark);
+    }
+
+    .step:first-child {
+      border-top: 0;
+    }
+  }
+</style>

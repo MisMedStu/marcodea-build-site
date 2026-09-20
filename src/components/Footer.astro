@@ -1,0 +1,197 @@
+---
+import Logo from './Logo.astro';
+import Icon from './Icon.astro';
+import { footer, brand } from '../data/content';
+import { site, social, PHONE_TEL, WHATSAPP_DISPLAY } from '../data/site';
+import type { IconName } from '../data/icons';
+
+const activeSocial = social.filter((item) => item.url !== '');
+---
+
+<footer class="site-ft">
+  <div class="wrap">
+    <div class="ft-grid">
+      <div class="ft-about">
+        <Logo href="#top" variant="light" ariaLabel="MARCODEA BUILD" />
+        <p>{footer.about}</p>
+        <span class="ft-tag">{brand.tagline}</span>
+
+        {
+          activeSocial.length > 0 && (
+            <ul class="social" aria-label={footer.socialTitle}>
+              {activeSocial.map((item) => (
+                <li>
+                  <a href={item.url} aria-label={item.label} rel="noopener" target="_blank">
+                    <Icon name={item.key as IconName} />
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )
+        }
+      </div>
+
+      <div>
+        <h4>{footer.columns.links.title}</h4>
+        <ul>
+          {footer.columns.links.items.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+        </ul>
+      </div>
+
+      <div>
+        <h4>{footer.columns.services.title}</h4>
+        <ul>
+          {footer.columns.services.items.map((item) => <li>{item}</li>)}
+        </ul>
+      </div>
+
+      <div>
+        <h4>{footer.columns.contact.title}</h4>
+        <ul class="contact">
+          <li><Icon name="pin" />{site.address.full}</li>
+          <li>
+            <Icon name="mail" />
+            <a class="en" href={`mailto:${site.email}`}>{site.email}</a>
+          </li>
+          <li><Icon name="globe" /><span class="en">{site.displayUrl}</span></li>
+          <li>
+            <Icon name="phone" />
+            <a class="en" href={`tel:${PHONE_TEL}`} dir="ltr">{WHATSAPP_DISPLAY}</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="ft-bar">
+      <span>{footer.copyright}</span>
+      <span class="en">{footer.parent}</span>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-ft {
+    background: var(--navy-deep);
+    color: rgba(255, 255, 255, 0.72);
+    padding-block: 64px 28px;
+    margin-top: 96px;
+  }
+
+  .ft-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr 1.2fr;
+    gap: 36px;
+  }
+
+  h4 {
+    color: var(--white);
+    font-size: 15px;
+    margin-bottom: 16px;
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    font-size: 14.5px;
+  }
+
+  a:hover {
+    color: var(--cyan);
+  }
+
+  .ft-about p {
+    font-size: 14.5px;
+    margin-top: 18px;
+    max-width: 34ch;
+  }
+
+  .ft-tag {
+    font-family: var(--f-en);
+    direction: ltr;
+    display: inline-block;
+    letter-spacing: 0.4em;
+    font-weight: 700;
+    font-size: 11.5px;
+    color: var(--cyan);
+    margin-top: 18px;
+  }
+
+  .social {
+    flex-direction: row;
+    gap: 12px;
+    margin-top: 20px;
+  }
+
+  .social a {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    border: 1px solid var(--line-dark);
+    color: var(--white);
+    transition:
+      border-color 0.2s,
+      color 0.2s;
+  }
+
+  .social a:hover {
+    border-color: var(--cyan);
+    color: var(--cyan);
+  }
+
+  .social :global(svg) {
+    width: 18px;
+    height: 18px;
+  }
+
+  .contact li {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .contact :global(svg) {
+    width: 18px;
+    height: 18px;
+    color: var(--cyan);
+    flex: none;
+    margin-top: 5px;
+  }
+
+  .ft-bar {
+    margin-top: 48px;
+    border: 1px solid var(--line-dark);
+    border-radius: 999px;
+    padding: 12px 26px;
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    font-size: 13px;
+  }
+
+  .ft-bar .en {
+    letter-spacing: 0.08em;
+  }
+
+  @media (max-width: 1080px) {
+    .ft-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .ft-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .ft-bar {
+      border-radius: 18px;
+    }
+  }
+</style>

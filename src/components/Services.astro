@@ -1,0 +1,108 @@
+---
+import Section from './Section.astro';
+import SectionHead from './SectionHead.astro';
+import Icon from './Icon.astro';
+import { services } from '../data/content';
+import type { IconName } from '../data/icons';
+---
+
+<Section id="services" tone="ice" labelledby="svc-h">
+  <SectionHead
+    kicker={services.kicker}
+    title={services.title}
+    titleId="svc-h"
+    lead={services.lead}
+  />
+
+  <div class="svc-grid">
+    {
+      services.items.map((item) => (
+        <article class="svc">
+          <span class="ic">
+            <Icon name={item.icon as IconName} />
+          </span>
+          <h3>{item.title}</h3>
+          <p>{item.text}</p>
+          <span class="tag">{item.tag}</span>
+        </article>
+      ))
+    }
+  </div>
+</Section>
+
+<style>
+  .svc-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+  }
+
+  .svc {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--r);
+    padding: 28px 24px 26px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    transition:
+      transform 0.25s ease,
+      box-shadow 0.25s ease,
+      border-color 0.25s ease;
+  }
+
+  .svc:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-hover);
+    border-color: var(--color-line-hover);
+  }
+
+  .ic {
+    width: 54px;
+    height: 54px;
+    border-radius: 16px;
+    background: var(--navy);
+    display: grid;
+    place-items: center;
+    color: var(--cyan);
+  }
+
+  .ic :global(svg) {
+    width: 26px;
+    height: 26px;
+  }
+
+  h3 {
+    font-size: 19px;
+    font-weight: 700;
+  }
+
+  p {
+    font-size: 14.5px;
+    color: var(--ink-2);
+    line-height: 1.85;
+  }
+
+  .tag {
+    margin-top: auto;
+    font-family: var(--f-en);
+    direction: ltr;
+    align-self: flex-end;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    color: var(--blue);
+  }
+
+  @media (max-width: 1080px) {
+    .svc-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 560px) {
+    .svc-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
