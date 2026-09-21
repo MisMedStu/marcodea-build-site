@@ -2,6 +2,7 @@
  * يقيس الموقع بـ Lighthouse على الجوال والحاسوب.
  *
  * التشغيل:  npm run build  ثم  npm run lh
+ * أو لقياس الموقع المنشور:  npm run lh -- https://الرابط/
  *
  * يشغّل نسخة الإنتاج (astro preview) على منفذ مستقل، ثم يقيسها،
  * ثم يغلق كل شيء. التقارير الكاملة تُحفظ في qa/.
@@ -97,8 +98,11 @@ async function audit(chromePort, formFactor) {
   );
 }
 
-const preview = await startPreview();
+// npm run lh -- https://…  يقيس رابطًا منشورًا بدل النسخة المحلية
+const target = process.argv[2];
+const preview = target ? { url: target, child: null } : await startPreview();
 URL = preview.url;
+console.log(`القياس على: ${URL}`);
 const chrome = await chromeLauncher.launch({ chromeFlags: ['--headless=new', '--no-sandbox'] });
 
 try {
