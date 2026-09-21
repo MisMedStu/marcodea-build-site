@@ -1,0 +1,66 @@
+# ينشر الموقع على GitHub Pages عند كل حفظ في الفرع main —
+# ومن ذلك كل حفظ من لوحة التحكم، فيظهر المشروع الجديد خلال دقيقتين.
+#
+# النطاق والمسار يُقرآن من إعدادات Pages تلقائيًا: على العنوان المؤقت
+# يُبنى تحت مسار فرعي ومخفيًا عن محركات البحث، وعند ربط marcodeabuild.ly
+# يُبنى على الجذر ومفتوحًا للفهرسة — بلا تعديل هنا.
+
+name: نشر الموقع
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    # GitHub Pages لا تعمل مجانًا على المستودعات الخاصة، فلا يُشغَّل
+    # النشر إلا حين يكون المستودع عامًا — تجنّبًا لفشل مكرّر بلا فائدة
+    if: ${{ !github.event.repository.private }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - id: pages
+        uses: actions/configure-pages@v5
+
+      - run: npm ci
+
+      - name: فحص الأنواع
+        run: npx astro check
+
+      - name: البناء
+        run: npx astro build
+        env:
+          SITE_URL: ${{ steps.pages.outputs.origin }}
+          BASE_PATH: ${{ steps.pages.outputs.base_path }}
+          PUBLIC_WHATSAPP: ${{ vars.PUBLIC_WHATSAPP || '218926243113' }}
+          PUBLIC_CMS_PROVIDER: ${{ vars.PUBLIC_CMS_PROVIDER }}
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
