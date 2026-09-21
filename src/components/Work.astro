@@ -1,4 +1,5 @@
 ---
+import { Picture } from 'astro:assets';
 import Section from './Section.astro';
 import SectionHead from './SectionHead.astro';
 import Button from './Button.astro';
@@ -24,8 +25,25 @@ const shown = hasProjects ? projects.slice(0, 3) : [];
       hasProjects
         ? shown.map((project, i) => (
             <article class:list={['slot', i === 0 && 'big']}>
-              {project.imageUrl && (
-                <img src={project.imageUrl} alt={project.imageAlt} loading="lazy" decoding="async" />
+              {project.image ? (
+                <Picture
+                  src={project.image}
+                  alt={project.imageAlt}
+                  widths={[420, 720, 1100]}
+                  sizes="(max-width: 560px) 92vw, (max-width: 900px) 46vw, 40vw"
+                  loading="lazy"
+                  formats={['avif', 'webp']}
+                  fallbackFormat="jpg"
+                />
+              ) : (
+                project.imageUrl && (
+                  <img
+                    src={project.imageUrl}
+                    alt={project.imageAlt}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                )
               )}
               {project.dims && <span class="dims">{project.dims}</span>}
               <div class="cap">
@@ -98,7 +116,8 @@ const shown = hasProjects ? projects.slice(0, 3) : [];
     grid-row: span 2;
   }
 
-  .slot > :global(img) {
+  .slot > :global(img),
+  .slot > :global(picture) img {
     position: absolute;
     inset: 0;
     width: 100%;

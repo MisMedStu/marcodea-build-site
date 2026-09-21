@@ -1,0 +1,54 @@
+# لوحة تحكم محتوى الموقع — Pages CMS
+# تُفتح من pagescms.org بتسجيل دخول GitHub، بلا حساب جديد.
+# المحتوى والصور تُحفظ داخل هذا المستودع، لا عند طرف خارجي.
+
+media:
+  input: src/assets/projects
+  output: /projects
+  extensions: [jpg, jpeg, png, webp]
+
+content:
+  - name: projects
+    label: معرض الأعمال
+    type: file
+    path: src/data/projects.json
+    icon: image
+    fields:
+      - name: projects
+        label: المشاريع
+        type: object
+        list:
+          min: 0
+          max: 12
+          collapsible:
+            collapsed: true
+          summary: '{fields.title}'
+        fields:
+          - name: title
+            label: اسم المشروع
+            type: string
+            required: true
+            description: 'اسم قصير يظهر على البطاقة — مثال: فيلا العائلة — الزروق'
+          - name: meta
+            label: السطر الوصفي
+            type: string
+            required: true
+            description: 'النوع ثم المساحة وبينهما نقطة — مثال: فيلا سكنية · 300 م²'
+          - name: dims
+            label: مقاس الأرض
+            type: string
+            description: 'يظهر صغيرًا في زاوية البطاقة — مثال: 20 × 15 m (اختياري)'
+          - name: image
+            label: صورة المشروع
+            type: image
+            required: true
+            description: 'رندر بعرض 1600 بكسل على الأقل، أفقي الاتجاه'
+          - name: imageAlt
+            label: وصف الصورة
+            type: string
+            required: true
+            description: 'جملة تصف ما في الصورة — يقرؤها المكفوفون وتفهمها محركات البحث'
+
+settings:
+  content:
+    merge: true

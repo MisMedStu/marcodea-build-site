@@ -1,16 +1,19 @@
 /**
  * مصدر مشاريع المعرض.
  *
- * الموقع لا يرتبط بخدمة واحدة: اختر الخدمة التي قَبِلت تسجيلك
- * بوضع اسمها في PUBLIC_CMS_PROVIDER داخل ملف .env، وضع مفتاحها معها.
+ * الوضع الافتراضي: المشاريع محفوظة داخل المستودع نفسه
+ * (src/data/projects/*.json وصورها في src/assets/projects/)،
+ * وتُحرَّر من لوحة التحكم بحساب GitHub — بلا خدمة خارجية
+ * وبلا حساب جديد، والصور تمرّ على تحسين الصور في Astro.
  *
- * إن لم تُضبط أي خدمة تُقرأ المشاريع من src/data/projects.json،
- * وإن كان فارغًا تظهر البطاقات الفارغة بنمط المخطط الهندسي.
+ * وإن أراد صاحب الموقع لاحقًا خدمة محتوى مستضافة، يكفي وضع
+ * اسمها في PUBLIC_CMS_PROVIDER: storyblok أو datocms أو sanity.
  *
  * تُستدعى وقت البناء فقط — لا طلبات شبكة عند الزائر.
  */
 
-import localProjects from '../data/projects.json';
+import type { ImageMetadata } from 'astro';
+import { getLocalProjects } from './local-projects';
 
 export interface Project {
   /** اسم المشروع كما يظهر على البطاقة */
@@ -21,11 +24,13 @@ export interface Project {
   dims?: string;
   /** وصف الصورة لقارئات الشاشة */
   imageAlt: string;
-  /** رابط الصورة من الخدمة المختارة */
+  /** صورة من داخل المستودع — تُحسَّن وقت البناء */
+  image?: ImageMetadata;
+  /** رابط صورة من خدمة خارجية */
   imageUrl?: string;
 }
 
-export type CmsProvider = 'none' | 'storyblok' | 'datocms' | 'sanity';
+export type CmsProvider = 'repo' | 'storyblok' | 'datocms' | 'sanity';
 
 function currentProvider(): CmsProvider {
   const provider = (import.meta.env.PUBLIC_CMS_PROVIDER ?? '').trim().toLowerCase();
@@ -33,10 +38,10 @@ function currentProvider(): CmsProvider {
   if (provider === 'storyblok' || provider === 'datocms' || provider === 'sanity') {
     return provider;
   }
-  return 'none';
+  return 'repo';
 }
 
-async function fetchFromProvider(provider: Exclude<CmsProvider, 'none'>): Promise<Project[]> {
+async function fetchFromProvider(provider: Exclude<CmsProvider, 'repo'>): Promise<Project[]> {
   if (provider === 'storyblok') {
     const { getStoryblokProjects } = await import('./cms/storyblok');
     return getStoryblokProjects();
@@ -52,8 +57,8 @@ async function fetchFromProvider(provider: Exclude<CmsProvider, 'none'>): Promis
 export async function getProjects(): Promise<Project[]> {
   const provider = currentProvider();
 
-  if (provider === 'none') {
-    return localProjects as Project[];
+  if (provider === 'repo') {
+    return getLocalProjects();
   }
 
   try {
