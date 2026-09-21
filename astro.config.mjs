@@ -3,10 +3,9 @@ import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
 
-// النطاق والمسار الأساسي قابلان للتغيير وقت البناء:
-// على النطاق النهائي يبقيان كما هنا، وفي الاستضافة المجانية تحت مسار
-// فرعي يضبطهما سير النشر في .github/workflows/deploy.yml
-const SITE_URL = process.env.SITE_URL || 'https://marcodeabuild.ly';
+// العنوان والمسار الأساسي يضبطهما سير النشر وقت البناء من إعدادات
+// GitHub Pages، فيعمل الموقع على أي عنوان بلا تعديل هنا
+const SITE_URL = process.env.SITE_URL || 'https://marcodeabuild.github.io';
 const BASE_PATH = process.env.BASE_PATH || '/';
 
 export default defineConfig({

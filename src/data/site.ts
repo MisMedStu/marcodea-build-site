@@ -13,9 +13,10 @@ export const WHATSAPP_DISPLAY = '092 624 3113';
 export const PHONE_TEL = '+218926243113';
 
 export const site = {
-  domain: 'marcodeabuild.ly',
-  url: 'https://marcodeabuild.ly',
-  displayUrl: 'www.marcodeabuild.ly',
+  // العنوان النهائي المجاني — بلا نطاق مدفوع
+  domain: 'marcodeabuild.github.io',
+  url: 'https://marcodeabuild.github.io',
+  displayUrl: 'marcodeabuild.github.io',
   email: 'marcodea.ly@gmail.com',
   address: {
     full: 'منطقة الزروق — مصراتة — ليبيا',
