@@ -6,19 +6,20 @@
  */
 import { site, seo, PHONE_TEL, social } from '../data/site';
 import { brand, footer, services } from '../data/content';
+import { absoluteUrl } from '../lib/url';
 
 const activeSocial = social.filter((item) => item.url !== '').map((item) => item.url);
 
 const schema = {
   '@context': 'https://schema.org',
   '@type': ['ProfessionalService', 'LocalBusiness'],
-  '@id': `${site.url}/#business`,
+  '@id': `${absoluteUrl('/', Astro.site, site.url)}#business`,
   name: brand.nameAr,
   alternateName: `${brand.nameEn} ${brand.nameEnSub}`,
   description: footer.about,
-  url: site.url,
-  image: `${site.url}${seo.ogImage}`,
-  logo: `${site.url}/favicon.svg`,
+  url: absoluteUrl('/', Astro.site, site.url),
+  image: absoluteUrl(seo.ogImage, Astro.site, site.url),
+  logo: absoluteUrl('favicon.svg', Astro.site, site.url),
   telephone: PHONE_TEL,
   email: site.email,
   foundingDate: site.founded,

@@ -51,7 +51,8 @@ src/
   scripts/      contact-form.ts — تحقّق النموذج وبناء رسالة واتساب
   styles/       global.css — كل التوكنات اللونية والمقاسية
   assets/       صور الهوية · fonts/ الخطوط · projects/ صور المعرض
-public/         robots.txt · favicon · og-image · apple-touch-icon
+public/         favicon · og-image · apple-touch-icon
+                (robots.txt يُولَّد وقت البناء حسب النطاق)
 .pages.yml      إعدادات لوحة التحكم
 reference/      الموكب الأصلي ودليل الهوية — مرجع فقط، لا يدخل البناء
 ```
@@ -192,24 +193,47 @@ PUBLIC_STORYBLOK_TOKEN=المفتاح
 
 ---
 
-## النشر على Cloudflare Pages
+## النشر
 
-1. ارفع المستودع إلى GitHub.
-2. في Cloudflare: **Workers & Pages → Create → Pages → Connect to Git**.
-3. الإعدادات:
+### الطريقة المعتمدة: GitHub Pages (تلقائي، بلا حساب جديد)
 
-   | الحقل | القيمة |
-   |---|---|
-   | Build command | `npm run build` |
-   | Build output directory | `dist` |
-   | Node version | `20` أو أحدث |
+سير النشر جاهز في [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml).
+كل حفظ في الفرع `main` — ومنه كل حفظ من لوحة التحكم — يفحص الموقع
+ويبنيه وينشره خلال دقيقتين تقريبًا.
 
-4. أضف متغيّر البيئة `PUBLIC_WHATSAPP` بقيمته. (متغيّرات الخدمات المستضافة لا تلزم إلا إن فُعّلت إحداها.)
-5. اربط النطاق `marcodeabuild.ly` من **Custom domains**.
+**شرط واحد:** GitHub Pages مجانية للمستودعات **العامة** فقط. سير النشر
+لا يعمل ما دام المستودع خاصًا، ويتفعّل وحده حين يصير عامًا.
 
-كل دفعة إلى الفرع `main` تنشر تلقائيًا.
+التفعيل لمرة واحدة من **Settings → Pages → Source: GitHub Actions**.
 
-> إن بِيع الموقع للشركة: اجعل حساب GitHub وحساب Cloudflare وحساب خدمة المحتوى باسمها، أو انقل الملكية عند التسليم.
+### النطاق والفهرسة يُضبطان تلقائيًا
+
+| النشر على | الروابط | محركات البحث |
+|---|---|---|
+| العنوان المؤقت `…github.io/marcodea-build-site/` | تحت المسار الفرعي | **مخفي** — حتى لا ينافس النطاق الحقيقي |
+| النطاق `marcodeabuild.ly` | من الجذر | **مفتوح** مع sitemap |
+
+لربط النطاق: **Settings → Pages → Custom domain** ← `marcodeabuild.ly`،
+ثم سجل DNS من نوع CNAME عند مزوّد النطاق يشير إلى `mismedstu.github.io`.
+لا يتغيّر شيء في الكود — الروابط والفهرسة تتبعان النطاق وحدهما.
+
+### متغيّرات النشر
+
+تُضبط من **Settings → Secrets and variables → Actions → Variables**:
+
+| المتغيّر | القيمة | إلزامي؟ |
+|---|---|---|
+| `PUBLIC_WHATSAPP` | `218926243113` | لا — هذه القيمة الافتراضية |
+| `PUBLIC_CMS_PROVIDER` | فارغ، أو اسم خدمة مستضافة | لا |
+
+### بديل: Cloudflare Pages
+
+إن فضّلت الشركة إبقاء المستودع خاصًا: اربطه من
+**Cloudflare → Workers & Pages → Connect to Git**، بأمر البناء `npm run build`
+ومجلد الإخراج `dist`. يلزمه حساب Cloudflare.
+
+> إن بِيع الموقع للشركة: انقل المستودع إلى حسابها من
+> **Settings → Transfer ownership** — ينتقل معه سير النشر ولوحة التحكم.
 
 ---
 
@@ -247,6 +271,6 @@ npm run verify && npm run build && npm run lh
 | روابط حسابات التواصل | لا تظهر أيقونات التواصل في الفوتر إطلاقًا |
 | ترخيص خط Montaser Arabic | الموقع يعمل بـ Alexandria |
 | ربط اللوحة بالمستودع من app.pagescms.org | الشركة تعدّل الملف يدويًا بدل اللوحة |
-| حجز النطاق `marcodeabuild.ly` | الموقع ينشر على رابط Cloudflare المؤقت |
+| حجز النطاق `marcodeabuild.ly` | الموقع يعمل على العنوان المؤقت، مخفيًا عن محركات البحث |
 
 لا شيء من هذه يمنع النشر — كلها تُضاف لاحقًا بلا تعديل في الكود.

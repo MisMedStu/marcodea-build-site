@@ -3,6 +3,8 @@ import '../styles/global.css';
 import { seo, site } from '../data/site';
 import { header } from '../data/content';
 import SchemaOrg from '../components/SchemaOrg.astro';
+import { withBase, absoluteUrl } from '../lib/url';
+import { isProductionSite } from '../lib/env';
 
 // تحميل مسبق للخطين الأساسيين: يمنع قفزة النص عند وصول الخط (CLS)
 import alexandriaArabic from '../assets/fonts/alexandria-arabic.woff2?url';
@@ -14,7 +16,8 @@ interface Props {
 
 const { title = seo.title, description = seo.description } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site ?? site.url).href;
-const ogImage = new URL(seo.ogImage, Astro.site ?? site.url).href;
+const ogImage = absoluteUrl(seo.ogImage, Astro.site, site.url);
+const indexable = isProductionSite(Astro.site);
 ---
 
 <!doctype html>
@@ -27,6 +30,7 @@ const ogImage = new URL(seo.ogImage, Astro.site ?? site.url).href;
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+    {!indexable && <meta name="robots" content="noindex, nofollow" />}
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="MARCODEA BUILD" />
@@ -42,8 +46,8 @@ const ogImage = new URL(seo.ogImage, Astro.site ?? site.url).href;
     <meta name="twitter:image" content={ogImage} />
 
     <meta name="theme-color" content="#082B6F" />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="icon" href={withBase('favicon.svg')} type="image/svg+xml" />
+    <link rel="apple-touch-icon" href={withBase('apple-touch-icon.png')} />
 
     <SchemaOrg />
   </head>

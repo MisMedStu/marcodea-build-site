@@ -16,7 +16,7 @@ import * as chromeLauncher from 'chrome-launcher';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const PORT = 4331;
-const URL = `http://localhost:${PORT}/`;
+let URL = `http://localhost:${PORT}/`;
 const CATEGORIES = ['performance', 'accessibility', 'best-practices', 'seo'];
 
 const LABELS = {
@@ -26,6 +26,11 @@ const LABELS = {
   seo: 'تهيئة محركات البحث',
 };
 
+/**
+ * يشغّل خادم المعاينة، أو يعيد استعمال خادم قائم:
+ * Astro 7 لا يسمح إلا بخادم معاينة واحد في الوقت نفسه.
+ * يعيد { url, child } — child فارغ إن كان الخادم ليس لنا فلا نغلقه.
+ */
 function startPreview() {
   const child = spawn('npx', ['astro', 'preview', '--port', String(PORT)], {
     cwd: root,
@@ -34,13 +39,32 @@ function startPreview() {
   });
 
   return new Promise((resolve, reject) => {
-    const timer = setTimeout(() => reject(new Error('لم يبدأ خادم المعاينة في الوقت المحدد')), 30000);
-    child.stdout.on('data', (chunk) => {
-      if (String(chunk).includes(String(PORT))) {
+    let output = '';
+    const timer = setTimeout(() => {
+      child.kill();
+      reject(new Error(`لم يبدأ خادم المعاينة خلال 30 ثانية. مخرجاته:
+${output}`));
+    }, 30000);
+
+    const onData = (chunk) => {
+      const text = String(chunk);
+      output += text;
+
+      const existing = text.match(/already running at (http:\/\/[^\s"\\]+)/);
+      if (existing) {
         clearTimeout(timer);
-        setTimeout(() => resolve(child), 600);
+        resolve({ url: existing[1].replace(/\/?$/, '/'), child: null });
+        return;
       }
-    });
+
+      if (text.includes(String(PORT))) {
+        clearTimeout(timer);
+        setTimeout(() => resolve({ url: `http://localhost:${PORT}/`, child }), 600);
+      }
+    };
+
+    child.stdout.on('data', onData);
+    child.stderr.on('data', onData);
     child.on('error', reject);
   });
 }
@@ -74,6 +98,7 @@ async function audit(chromePort, formFactor) {
 }
 
 const preview = await startPreview();
+URL = preview.url;
 const chrome = await chromeLauncher.launch({ chromeFlags: ['--headless=new', '--no-sandbox'] });
 
 try {
@@ -98,5 +123,5 @@ try {
   } catch {
     /* تجاهل */
   }
-  preview.kill();
+  preview.child?.kill();
 }
